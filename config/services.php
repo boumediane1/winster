@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'adjoe' => [
+        's2s_token' => env('S2S_TOKEN')
+    ]
+
 ];
