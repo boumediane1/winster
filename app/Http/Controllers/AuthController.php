@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserRegistered;
 use App\Models\User;
+use App\Reason;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -24,7 +26,16 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'coin_amount' => 1440
         ]);
+
+        UserRegistered::dispatch([
+            'user_uuid' => $user->uuid,
+            'message' => 'Welcome',
+            'coin_amount' => 1440,
+            'reason' => Reason::RegistrationBonus,
+        ]);
+
 
         return response()->json($user);
     }

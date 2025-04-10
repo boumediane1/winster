@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PayoutReceived;
+use App\Http\Requests\StorePayoutRequest;
 use App\Models\Transaction;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Reason;
 
 class PayoutController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke(StorePayoutRequest $request)
     {
         $sid = $this->calculate_sid(
-            $request->query('trans_uuid'),
             $request->query('user_uuid'),
-            $request->query('currency'),
+            $request->query('trans_uuid'),
             $request->query('coin_amount'),
+            $request->query('currency'),
             config('services.adjoe.s2s_token')
         );
 
@@ -25,21 +27,40 @@ class PayoutController extends Controller
             return response()->json(['error' => 'Could not verify sid'], 400);
         }
 
-        $user = User::where('uuid', $request->query('user_uuid'))->firstOrFail();
+        $user = User::find($request->query('user_uuid'));
+
+        if (!$user) {
+            return response()->json(['error' => 'User not  found'], 404);
+        }
 
         $transaction = new Transaction([
             'coin_amount' => $request->query('coin_amount'),
             'app_name' => $request->query('app_name')
         ]);
+
         $transaction->user()->associate($user);
-        $transaction->save();
+
+        $saved = $transaction->save();
+
+        if ($saved) {
+            PayoutReceived::dispatch(
+                [
+                    'user_uuid' => $transaction->user_uuid,
+                    'message' => $transaction->app_name,
+                    'coin_amount' => $transaction->coin_amount,
+                    'reason' => Reason::Adjoe,
+                ]
+            );
+        }
+
+        return $saved;
     }
 
     public function calculate_sid(
         string $user_uuid,
         string $trans_uuid,
         string $currency,
-        int    $coin_amount,
+        string $coin_amount,
         string $s2s_token)
     {
         $data = $trans_uuid . $user_uuid . $currency . $coin_amount . $s2s_token;
