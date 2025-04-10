@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PayoutController;
-use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\WalletLogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,4 +15,4 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/payout', PayoutController::class);
 
-Route::get('/transactions', [TransactionController::class, 'index']);
+Route::get('/wallet/logs', [WalletLogController::class, 'index']);

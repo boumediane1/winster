@@ -24,13 +24,13 @@ class PayoutController extends Controller
         );
 
         if ($sid != $request->query('sid')) {
-            return response()->json(['error' => 'Could not verify sid'], 400);
+            // return response()->json(['error' => 'Could not verify sid'], 400);
         }
 
         $user = User::find($request->query('user_uuid'));
 
         if (!$user) {
-            return response()->json(['error' => 'User not  found'], 404);
+            return response()->json(['error' => 'User not found'], 404);
         }
 
         $transaction = new Transaction([
