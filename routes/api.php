@@ -15,4 +15,4 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/payout', PayoutController::class);
 
-Route::get('/wallet/logs', [WalletLogController::class, 'index']);
+Route::get('/wallet/logs', [WalletLogController::class, 'index'])->middleware('auth:sanctum');

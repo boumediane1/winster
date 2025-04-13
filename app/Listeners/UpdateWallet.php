@@ -18,10 +18,14 @@ class UpdateWallet
 
         $user->increment('coin_amount', $event->data['coin_amount']);
 
-        WalletLog::create([
+        $wallet_log = new WalletLog([
             'message' => $event->data['message'],
             'coin_amount' => $event->data['coin_amount'],
-            'reason' => $event->data['reason']
+            'reason' => $event->data['reason'],
         ]);
+
+        $wallet_log->user()->associate($user);
+
+        $wallet_log->save();
     }
 }
