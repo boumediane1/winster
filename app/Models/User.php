@@ -24,7 +24,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'coin_amount'
+        'coin_amount',
+        'device_id'
     ];
 
     /**

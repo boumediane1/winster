@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\UserRegistered;
+use App\Http\Requests\StoreRegisterRequest;
 use App\Models\User;
 use App\Reason;
 use Illuminate\Http\Request;
@@ -11,22 +12,14 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(StoreRegisterRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:6'
-        ]);
-
-        if ($validator->fails())
-            return $validator->errors();
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'coin_amount' => 1440
+            'coin_amount' => 1440,
+            'device_id' => $request->device_id
         ]);
 
         UserRegistered::dispatch([
