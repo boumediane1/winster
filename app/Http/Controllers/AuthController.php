@@ -24,7 +24,7 @@ class AuthController extends Controller
 
         UserRegistered::dispatch([
             'user_uuid' => $user->uuid,
-            'message' => 'Welcome',
+            'message' => 'Dashboard',
             'coin_amount' => 1440,
             'reason' => Reason::RegistrationBonus,
         ]);
