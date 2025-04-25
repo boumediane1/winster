@@ -45,7 +45,7 @@ const Profile = () => {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Profile settings" />
 
-            <div className="px-4 py-6">
+            <div className="px-6 py-6 md:px-8">
                 <Heading
                     title="Settings"
                     description="Manage your profile and account settings"
