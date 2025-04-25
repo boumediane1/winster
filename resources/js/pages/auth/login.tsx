@@ -1,8 +1,8 @@
-import { Label } from '@/components/ui/ui/label';
+import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth/auth-layout';
 import { Head, useForm } from '@inertiajs/react';
-import { Input } from '@/components/ui/ui/input';
-import { Button } from '@/components/ui/ui/button';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { LoaderCircle } from 'lucide-react';
 import InputError from '@/components/input-error';
 
