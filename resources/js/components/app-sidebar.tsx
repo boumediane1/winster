@@ -20,6 +20,11 @@ const mainNavItems: NavItem[] = [
         href: '/',
         icon: LayoutGrid,
     },
+    {
+        title: 'Offerwalls',
+        href: '/offerwalls',
+        icon: LayoutGrid,
+    },
 ];
 
 export function AppSidebar() {
