@@ -2,16 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Transaction extends Model
+class AppUser extends Model
 {
-    use HasUuids;
-
     protected $primaryKey = 'uuid';
-    protected $fillable = ['coin_amount', 'app_name', 'user_uuid'];
+    protected $fillable = ['device_id', 'coin_amount'];
 
     public function user(): BelongsTo
     {

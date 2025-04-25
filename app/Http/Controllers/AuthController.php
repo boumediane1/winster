@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\UserRegistered;
 use App\Http\Requests\StoreRegisterRequest;
 use App\Models\User;
+use App\Models\AppUser;
 use App\Reason;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -18,17 +19,21 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'coin_amount' => 1440,
+        ]);
+
+        $userDetails = new AppUser([
             'device_id' => $request->device_id
         ]);
 
+
+        $user->appUser()->save($userDetails);
+
         UserRegistered::dispatch([
             'user_uuid' => $user->uuid,
-            'message' => 'Dashboard',
+            'message' => 'Welcome gift',
             'coin_amount' => 1440,
             'reason' => Reason::RegistrationBonus,
         ]);
-
 
         return response()->json($user);
     }

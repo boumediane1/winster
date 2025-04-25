@@ -10,8 +10,8 @@ class WalletLog extends Model
 {
     protected $fillable = ['message', 'coin_amount', 'reason'];
 
-    public function user(): BelongsTo
+    public function appUser(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(AppUser::class);
     }
 }

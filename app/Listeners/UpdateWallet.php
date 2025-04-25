@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Events\PayoutReceived;
 use App\Events\UserRegistered;
-use App\Models\User;
+use App\Models\AppUser;
 use App\Models\WalletLog;
 
 class UpdateWallet
@@ -14,9 +14,9 @@ class UpdateWallet
      */
     public function handle(UserRegistered|PayoutReceived $event): void
     {
-        $user = User::findOrFail($event->data['user_uuid']);
+        $appUser = AppUser::findOrFail($event->data['user_uuid']);
 
-        $user->increment('coin_amount', $event->data['coin_amount']);
+        $appUser->increment('coin_amount', $event->data['coin_amount']);
 
         $wallet_log = new WalletLog([
             'message' => $event->data['message'],
@@ -24,7 +24,7 @@ class UpdateWallet
             'reason' => $event->data['reason'],
         ]);
 
-        $wallet_log->user()->associate($user);
+        $wallet_log->appUser()->associate($appUser);
 
         $wallet_log->save();
     }

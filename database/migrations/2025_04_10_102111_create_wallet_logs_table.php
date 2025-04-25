@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\AppUser;
 use App\Models\User;
 use App\Reason;
 use Illuminate\Database\Migrations\Migration;
@@ -17,7 +18,7 @@ return new class extends Migration {
             $table->string('message');
             $table->integer('coin_amount');
             $table->enum('reason', [Reason::RegistrationBonus->value, Reason::Adjoe->value, Reason::Cashout->value]);
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(AppUser::class);
             $table->timestamps();
         });
     }
