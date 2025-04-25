@@ -13,7 +13,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('wallet_logs', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('message');
             $table->integer('coin_amount');
@@ -28,6 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('wallet_logs');
+        Schema::dropIfExists('transactions');
     }
 };

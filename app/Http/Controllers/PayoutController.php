@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\PayoutReceived;
 use App\Http\Requests\StorePayoutRequest;
-use App\Models\Transaction;
+use App\Models\AdjoeTransaction;
 use App\Models\User;
 use App\Reason;
 
@@ -33,7 +33,7 @@ class PayoutController extends Controller
             return response()->json(['error' => 'User not found'], 404);
         }
 
-        $transaction = new Transaction([
+        $transaction = new AdjoeTransaction([
             'coin_amount' => $request->query('coin_amount'),
             'app_name' => $request->query('app_name')
         ]);

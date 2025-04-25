@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Events\PayoutReceived;
 use App\Events\UserRegistered;
 use App\Models\AppUser;
-use App\Models\WalletLog;
+use App\Models\Transaction;
 
 class UpdateWallet
 {
@@ -18,14 +18,14 @@ class UpdateWallet
 
         $appUser->increment('coin_amount', $event->data['coin_amount']);
 
-        $wallet_log = new WalletLog([
+        $transaction = new Transaction([
             'message' => $event->data['message'],
             'coin_amount' => $event->data['coin_amount'],
             'reason' => $event->data['reason'],
         ]);
 
-        $wallet_log->appUser()->associate($appUser);
+        $transaction->appUser()->associate($appUser);
 
-        $wallet_log->save();
+        $transaction->save();
     }
 }

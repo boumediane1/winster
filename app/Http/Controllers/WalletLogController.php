@@ -8,7 +8,7 @@ class WalletLogController extends Controller
 {
     public function index()
     {
-        return DB::table('wallet_logs')
+        return DB::table('transactions')
             ->where('user_uuid', auth()->id())
             ->orderBy('id', 'desc')->paginate(20);
     }

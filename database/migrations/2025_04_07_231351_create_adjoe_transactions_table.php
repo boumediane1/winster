@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('adjoe_transactions', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->integer('coin_amount');
             $table->string('app_name');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('adjoe_transactions');
     }
 };
