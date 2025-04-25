@@ -18,7 +18,8 @@ return new class extends Migration {
             $table->string('message');
             $table->integer('coin_amount');
             $table->enum('reason', [Reason::RegistrationBonus->value, Reason::Adjoe->value, Reason::Cashout->value]);
-            $table->foreignIdFor(AppUser::class);
+            $table->uuid('app_user_uuid');
+            $table->foreign('app_user_uuid')->references('uuid')->on('app_users');
             $table->timestamps();
         });
     }
