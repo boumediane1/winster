@@ -71,6 +71,7 @@ const Login = () => {
 
                     <Button
                         type="submit"
+                        size="xl"
                         className="mt-4 w-full"
                         tabIndex={4}
                         disabled={processing}

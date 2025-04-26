@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthenticatedSessionController;
+use App\Http\Controllers\AppUserController;
 use App\Http\Controllers\OfferwallController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -26,8 +27,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::get('/offerwalls', [OfferwallController::class, 'index'])->name('offerwalls.index');
-
     Route::get('/offerwalls/{offerwall}', [OfferwallController::class, 'show'])->name('offerwall.show');
+
+    Route::get('/users', [AppUserController::class, 'index']);
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

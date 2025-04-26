@@ -3,15 +3,23 @@ import Heading from '@/components/heading';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { BreadcrumbItem } from '@/types';
 
-const Offerwall = (title: string) => {
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Adjoe',
+        href: '/',
+    },
+];
+
+const Offerwall = () => {
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <div className="px-6 py-6 md:px-8">
-                <Heading title="Tapjoy" />
+                <Heading title="Adjoe" />
 
                 <div className="max-w-4xl">
-                    <form>
+                    <form onSubmit={(e) => e.preventDefault()}>
                         <div className="space-y-12">
                             <div className="border-b pb-12">
                                 <h3 className="text-base/7 font-medium text-gray-900">
@@ -72,9 +80,11 @@ const Offerwall = (title: string) => {
                                     </div>
 
                                     <div className="grid gap-2">
-                                        <Label htmlFor="sdk">Offer id</Label>
+                                        <Label htmlFor="offer-id">
+                                            Offer id
+                                        </Label>
                                         <Input
-                                            id="sdk"
+                                            id="offer-id"
                                             placeholder="trans_uuid"
                                         />
                                     </div>
@@ -82,7 +92,9 @@ const Offerwall = (title: string) => {
                             </div>
                         </div>
 
-                        <Button className="mt-6">Save changes</Button>
+                        <Button size="xl" className="mt-6">
+                            Save changes
+                        </Button>
                     </form>
                 </div>
             </div>

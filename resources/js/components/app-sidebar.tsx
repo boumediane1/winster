@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid } from 'lucide-react';
+import { Gamepad2, LayoutGrid, UserCog, Users, Wallet } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -21,9 +21,19 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
+        title: 'Users',
+        href: 'users',
+        icon: Users,
+    },
+    {
         title: 'Offerwalls',
         href: '/offerwalls',
-        icon: LayoutGrid,
+        icon: Gamepad2,
+    },
+    {
+        title: 'Payouts',
+        href: '/payouts',
+        icon: Wallet,
     },
 ];
 
