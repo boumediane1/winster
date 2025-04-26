@@ -27,5 +27,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/offerwalls', [OfferwallController::class, 'index'])->name('offerwalls.index');
 
+    Route::get('/offerwalls/{offerwall}', [OfferwallController::class, 'show'])->name('offerwall.show');
+
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
