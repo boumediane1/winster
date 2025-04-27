@@ -42,11 +42,16 @@ export function DataTable<TData, TValue>({
         state: {
             columnFilters,
         },
+        initialState: {
+            pagination: {
+                pageSize: 7,
+            },
+        },
     });
 
     return (
         <div>
-            <div className="flex items-center py-4">
+            <div className="flex items-center pb-4">
                 <Input
                     placeholder="Filter names..."
                     value={
@@ -64,7 +69,7 @@ export function DataTable<TData, TValue>({
 
             <div className="rounded-md border">
                 <Table>
-                    <TableHeader>
+                    <TableHeader className="bg-gray-50">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {

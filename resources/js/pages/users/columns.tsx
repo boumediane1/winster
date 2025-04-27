@@ -1,5 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
 export interface User {
     name: string;
@@ -21,6 +22,17 @@ export const columns: ColumnDef<User>[] = [
     {
         accessorKey: 'status',
         header: 'Account status',
+        cell: ({ row }) => {
+            return Math.random() < 0.5 ? (
+                <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset">
+                    Active
+                </span>
+            ) : (
+                <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-red-600/10 ring-inset">
+                    Banned
+                </span>
+            );
+        },
     },
     {
         accessorKey: 'coinAmount',
@@ -37,8 +49,8 @@ export const columns: ColumnDef<User>[] = [
         id: 'actions',
         cell: ({}) => {
             return (
-                <Button variant="link" className="text-indigo-500">
-                    Edit
+                <Button variant="link" className="">
+                    <PencilSquareIcon className="size-5" />
                 </Button>
             );
         },

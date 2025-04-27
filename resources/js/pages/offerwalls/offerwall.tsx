@@ -92,7 +92,7 @@ const Offerwall = () => {
                             </div>
                         </div>
 
-                        <Button size="xl" className="mt-6">
+                        <Button size="xl" className="mt-6 cursor-pointer">
                             Save changes
                         </Button>
                     </form>

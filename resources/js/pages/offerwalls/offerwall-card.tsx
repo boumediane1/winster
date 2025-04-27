@@ -17,7 +17,12 @@ const OfferwallCard = ({ title, type, logo, classNames }: Offerwall) => {
                 <img src={logo} className="h-12 rounded-full" alt="" />
             </div>
 
-            <Button asChild variant="outline" size="xl">
+            <Button
+                asChild
+                variant="outline"
+                size="xl"
+                className="cursor-pointer"
+            >
                 <Link
                     as="button"
                     href={route('offerwall.show', { offerwall: 1 })}

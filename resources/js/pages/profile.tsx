@@ -120,7 +120,11 @@ const Profile = () => {
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <Button size="lg" disabled={processing}>
+                            <Button
+                                size="lg"
+                                disabled={processing}
+                                className="cursor-pointer"
+                            >
                                 Save
                             </Button>
 

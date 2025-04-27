@@ -19,14 +19,14 @@ const Offerwalls = () => {
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     <OfferwallCard
                         title="Adjoe"
-                        type="Android SDK"
+                        type="Mobile SDK"
                         logo="/images/adjoe.png"
                         classNames="bg-indigo-50"
                     />
 
                     <OfferwallCard
                         title="Tapjoy"
-                        type="Android SDK"
+                        type="Mobile SDK"
                         logo="/images/tapjoy.png"
                         classNames="bg-red-50"
                     />
