@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/offerwalls/{offerwall}', [OfferwallController::class, 'show'])->name('offerwall.show');
 
     Route::get('/users', [AppUserController::class, 'index']);
+    Route::get('/users/{user}', [AppUserController::class, 'edit'])->name('users.edit');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

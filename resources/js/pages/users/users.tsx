@@ -23,6 +23,8 @@ const users: User[] = [
         device: 'iPhone 14',
         coinAmount: 1500,
         status: 'active',
+        createdAt: '2024-05-20',
+        countryCode: 'US',
     },
     {
         name: 'Bob Smith',
@@ -30,6 +32,8 @@ const users: User[] = [
         device: 'Samsung Galaxy S23',
         coinAmount: 850,
         status: 'banned',
+        createdAt: '2023-11-14',
+        countryCode: 'CA',
     },
     {
         name: 'Charlie Daniels',
@@ -37,13 +41,17 @@ const users: User[] = [
         device: 'Google Pixel 7',
         coinAmount: 120,
         status: 'active',
+        createdAt: '2023-07-03',
+        countryCode: 'GB',
     },
     {
         name: 'Diana Prince',
         email: 'diana.prince@example.com',
         device: 'iPhone 13',
         coinAmount: 2400,
-        status: 'blocked',
+        status: 'banned',
+        createdAt: '2024-02-10',
+        countryCode: 'AU',
     },
     {
         name: 'Evan Turner',
@@ -51,13 +59,8 @@ const users: User[] = [
         device: 'OnePlus 11',
         coinAmount: 670,
         status: 'active',
-    },
-    {
-        name: 'Fiona Gallagher',
-        email: 'fiona.gallagher@example.com',
-        device: 'Samsung Galaxy Note 20',
-        coinAmount: 980,
-        status: 'suspended',
+        createdAt: '2023-08-18',
+        countryCode: 'NZ',
     },
     {
         name: 'George Martin',
@@ -65,6 +68,8 @@ const users: User[] = [
         device: 'iPhone SE',
         coinAmount: 340,
         status: 'banned',
+        createdAt: '2024-03-22',
+        countryCode: 'US',
     },
     {
         name: 'Hannah Wells',
@@ -72,6 +77,8 @@ const users: User[] = [
         device: 'Huawei P40',
         coinAmount: 2100,
         status: 'active',
+        createdAt: '2023-09-14',
+        countryCode: 'DE',
     },
     {
         name: 'Ian Wright',
@@ -79,20 +86,17 @@ const users: User[] = [
         device: 'Motorola Edge',
         coinAmount: 590,
         status: 'active',
+        createdAt: '2024-04-01',
+        countryCode: 'GB',
     },
     {
         name: 'Julia Roberts',
         email: 'julia.roberts@example.com',
         device: 'iPhone 15',
         coinAmount: 3150,
-        status: 'blocked',
-    },
-    {
-        name: 'Kevin Durant',
-        email: 'kevin.durant@example.com',
-        device: 'Samsung Galaxy S22',
-        coinAmount: 400,
-        status: 'suspended',
+        status: 'banned',
+        createdAt: '2023-10-29',
+        countryCode: 'US',
     },
     {
         name: 'Laura Croft',
@@ -100,6 +104,8 @@ const users: User[] = [
         device: 'Google Pixel 6',
         coinAmount: 150,
         status: 'active',
+        createdAt: '2023-06-07',
+        countryCode: 'GB',
     },
     {
         name: 'Mark Spencer',
@@ -107,6 +113,8 @@ const users: User[] = [
         device: 'Sony Xperia 5',
         coinAmount: 720,
         status: 'active',
+        createdAt: '2023-05-28',
+        countryCode: 'CA',
     },
     {
         name: 'Nina Dobrev',
@@ -114,6 +122,8 @@ const users: User[] = [
         device: 'iPhone 12 Mini',
         coinAmount: 1800,
         status: 'banned',
+        createdAt: '2024-02-24',
+        countryCode: 'BG',
     },
     {
         name: 'Oscar Wilde',
@@ -121,5 +131,7 @@ const users: User[] = [
         device: 'Samsung Galaxy Fold',
         coinAmount: 5000,
         status: 'active',
+        createdAt: '2023-11-01',
+        countryCode: 'IE',
     },
 ];

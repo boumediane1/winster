@@ -69,12 +69,15 @@ export function DataTable<TData, TValue>({
 
             <div className="rounded-md border">
                 <Table>
-                    <TableHeader className="bg-gray-50">
+                    <TableHeader className="bg-muted">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead
+                                            key={header.id}
+                                            className="text-muted-foreground"
+                                        >
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -126,6 +129,7 @@ export function DataTable<TData, TValue>({
                     variant="outline"
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
+                    className="cursor-pointer"
                 >
                     Previous
                 </Button>
@@ -133,6 +137,7 @@ export function DataTable<TData, TValue>({
                     variant="outline"
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
+                    className="cursor-pointer"
                 >
                     Next
                 </Button>
