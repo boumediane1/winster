@@ -30,11 +30,6 @@ const mainNavItems: NavItem[] = [
         href: '/offerwalls',
         icon: Gamepad2,
     },
-    {
-        title: 'Payouts',
-        href: '/payouts',
-        icon: Wallet,
-    },
 ];
 
 export function AppSidebar() {

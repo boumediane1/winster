@@ -22,9 +22,12 @@ const AuthSimpleLayout = ({
                             href={route('dashboard')}
                             className="flex flex-col items-center gap-2 font-medium"
                         >
-                            <div className="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
-                                <AppLogoIcon className="size-9 fill-current text-[var(--foreground)] dark:text-white" />
-                            </div>
+                            <img
+                                src="/images/logo.webp"
+                                alt="logo"
+                                className="mb-1 size-16 rounded-md"
+                            />
+
                             <span className="sr-only">{title}</span>
                         </Link>
 

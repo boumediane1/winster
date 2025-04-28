@@ -20,7 +20,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
-        return Inertia::render('dashboard');
+        return Inertia::render('dashboard/dashboard');
     })->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

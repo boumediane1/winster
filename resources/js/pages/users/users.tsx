@@ -2,10 +2,18 @@ import AppLayout from '@/layouts/app/app-sidebar-layout';
 import Heading from '@/components/heading';
 import { columns, User } from './columns';
 import { DataTable } from '@/pages/users/data-table';
+import { BreadcrumbItem } from '@/types';
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'User management',
+        href: '/',
+    },
+];
 
 const Users = () => {
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <div className="px-6 py-6 md:px-8">
                 <Heading title="User management" />
                 <DataTable columns={columns} data={users} />
@@ -16,7 +24,7 @@ const Users = () => {
 
 export default Users;
 
-const users: User[] = [
+export const users: User[] = [
     {
         name: 'Alice Johnson',
         email: 'alice.johnson@example.com',
