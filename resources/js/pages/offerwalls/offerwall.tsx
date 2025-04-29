@@ -26,7 +26,7 @@ const Offerwall = () => {
                                     Profile
                                 </h3>
 
-                                <div className="mt-10 grid grid-cols-2 gap-x-4 gap-y-8">
+                                <div className="mt-10 grid gap-x-4 gap-y-8 sm:grid-cols-2">
                                     <div className="grid gap-2">
                                         <Label htmlFor="name">
                                             Network name
@@ -60,7 +60,7 @@ const Offerwall = () => {
                                     Postback setup
                                 </h3>
 
-                                <div className="mt-10 grid grid-cols-3 gap-x-4 gap-y-8">
+                                <div className="mt-10 grid gap-x-4 gap-y-8 sm:grid-cols-3">
                                     <div className="grid gap-2">
                                         <Label htmlFor="reward-amount">
                                             Reward amount
