@@ -4,11 +4,7 @@ import Heading from '@/components/heading';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    DevicePhoneMobileIcon,
-    PaperAirplaneIcon,
-    PencilSquareIcon,
-} from '@heroicons/react/24/outline';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import {
     Calendar,
     Phone,
@@ -18,6 +14,15 @@ import {
     UserRound,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -58,10 +63,78 @@ const EditUser = () => {
                                         </span>
                                     </div>
                                 </div>
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <PencilSquareIcon className="size-6 cursor-pointer text-gray-900 hover:text-gray-500" />
+                                    </DialogTrigger>
 
-                                <button className="cursor-pointer">
-                                    <PencilSquareIcon className="size-6 text-gray-900 hover:text-gray-500" />
-                                </button>
+                                    <DialogContent className="sm:max-w-[425px]">
+                                        <DialogHeader>
+                                            <DialogTitle>
+                                                Edit profile
+                                            </DialogTitle>
+                                            <DialogDescription>
+                                                Leave the password field blank
+                                                to keep the current password.
+                                            </DialogDescription>
+                                        </DialogHeader>
+
+                                        <div className="grid gap-4 py-4">
+                                            <div className="grid grid-cols-4 items-center gap-4">
+                                                <Label
+                                                    htmlFor="name"
+                                                    className="text-right"
+                                                >
+                                                    Name
+                                                </Label>
+                                                <Input
+                                                    id="name"
+                                                    defaultValue="Bob Smith"
+                                                    className="col-span-3"
+                                                />
+                                            </div>
+
+                                            <div className="grid grid-cols-4 items-center gap-4">
+                                                <Label
+                                                    htmlFor="email"
+                                                    className="text-right"
+                                                >
+                                                    Email
+                                                </Label>
+                                                <Input
+                                                    id="email"
+                                                    type="email"
+                                                    defaultValue="bob.smith@example.com"
+                                                    className="col-span-3"
+                                                />
+                                            </div>
+
+                                            <div className="grid grid-cols-4 items-center gap-4">
+                                                <Label
+                                                    htmlFor="password"
+                                                    className="text-right"
+                                                >
+                                                    Password
+                                                </Label>
+                                                <Input
+                                                    id="password"
+                                                    type="password"
+                                                    className="col-span-3"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <DialogFooter>
+                                            <Button
+                                                type="submit"
+                                                size="xl"
+                                                className="cursor-pointer"
+                                            >
+                                                Save changes
+                                            </Button>
+                                        </DialogFooter>
+                                    </DialogContent>
+                                </Dialog>
                             </div>
 
                             <div className="mt-8 space-y-1">

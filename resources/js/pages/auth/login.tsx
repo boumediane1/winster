@@ -72,7 +72,7 @@ const Login = () => {
                     <Button
                         type="submit"
                         size="xl"
-                        className="mt-4 w-full"
+                        className="mt-4 w-full cursor-pointer"
                         tabIndex={4}
                         disabled={processing}
                     >
