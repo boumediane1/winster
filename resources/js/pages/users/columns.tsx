@@ -1,6 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
-import { EyeIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
 import { Link } from '@inertiajs/react';
 import { CircleChevronRight } from 'lucide-react';
@@ -86,7 +85,7 @@ export const columns: ColumnDef<User>[] = [
                 <Button variant="link" className="">
                     <Link
                         href={route('users.edit', {
-                            user: '01967235-2aa6-70c5-993b-670150464731',
+                            user: '019682b4-0481-7339-94b0-635011a0876b',
                         })}
                     >
                         <CircleChevronRight className="size-5" />
