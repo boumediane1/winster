@@ -15,12 +15,23 @@ export interface NavGroup {
     items: NavItem[];
 }
 
-export interface NavItem {
-    title: string;
-    href: string;
-    icon?: LucideIcon | null;
-    isActive?: boolean;
-}
+export type NavItem =
+    | {
+          title: string;
+          icon?: LucideIcon | null;
+          href: string;
+          isActive?: boolean;
+      }
+    | {
+          title: string;
+          icon?: LucideIcon | null;
+          children: {
+              title: string;
+              href: string;
+              icon?: LucideIcon | null;
+              isActive?: boolean;
+          }[];
+      };
 
 export interface SharedData {
     name: string;
