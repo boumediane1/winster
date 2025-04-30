@@ -11,7 +11,7 @@ class AppUserController extends Controller
     public function index() {
         $users = User::where('is_admin', false)->get();
 
-        return Inertia::render('users/users', [
+        return Inertia::render('users/registered-users/users', [
             'users' => $users
         ]);
     }
@@ -20,5 +20,9 @@ class AppUserController extends Controller
         return Inertia::render('users/UserDetails', [
             'user' => null
         ]);
+    }
+
+    public function banned() {
+        return Inertia::render('users/banned-users/users');
     }
 }

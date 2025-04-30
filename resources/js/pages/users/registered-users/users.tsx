@@ -1,12 +1,12 @@
 import AppLayout from '@/layouts/app/app-sidebar-layout';
 import Heading from '@/components/heading';
 import { columns, User } from './columns';
-import { DataTable } from '@/pages/users/data-table';
+import { DataTable } from '@/components/data-table';
 import { BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'User management',
+        title: 'Registered Users',
         href: '/',
     },
 ];
@@ -15,7 +15,7 @@ const Users = () => {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <div className="px-6 py-6 md:px-8">
-                <Heading title="User management" />
+                <Heading title="Registered Users" />
                 <DataTable columns={columns} data={users} />
             </div>
         </AppLayout>
