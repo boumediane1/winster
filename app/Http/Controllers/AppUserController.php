@@ -17,7 +17,7 @@ class AppUserController extends Controller
     }
 
     public function edit() {
-        return Inertia::render('users/edit-user', [
+        return Inertia::render('users/UserDetails', [
             'user' => null
         ]);
     }

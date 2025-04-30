@@ -31,7 +31,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const EditUser = () => {
+const UserDetails = () => {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <div className="px-6 py-6 md:px-8">
@@ -216,4 +216,4 @@ const EditUser = () => {
     );
 };
 
-export default EditUser;
+export default UserDetails;
