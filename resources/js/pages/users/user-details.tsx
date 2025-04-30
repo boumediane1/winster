@@ -5,14 +5,7 @@ import '/node_modules/flag-icons/css/flag-icons.min.css';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
-import {
-    Calendar,
-    Phone,
-    Send,
-    Smartphone,
-    User,
-    UserRound,
-} from 'lucide-react';
+import { Calendar, Send, Smartphone, UserRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -23,6 +16,16 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+import { columns, Payout } from '@/pages/users/columns';
+import { DataTable } from '@/components/data-table';
+import {
+    ColumnFiltersState,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    useReactTable,
+} from '@tanstack/react-table';
+import * as React from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -32,12 +35,34 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const UserDetails = () => {
+    const [columnFilters, setColumnFilters] =
+        React.useState<ColumnFiltersState>([]);
+
+    const table = useReactTable({
+        data: payouts,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        onColumnFiltersChange: setColumnFilters,
+        getFilteredRowModel: getFilteredRowModel(),
+        state: {
+            columnFilters,
+        },
+        initialState: {
+            pagination: {
+                pageSize: 7,
+            },
+        },
+    });
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <div className="px-6 py-6 md:px-8">
                 <Heading title="User details" />
                 <div className="grid grid-cols-12 gap-x-4">
-                    <div className="order-1 col-span-full h-96 rounded-lg border border-dashed p-4 lg:order-0 lg:col-span-6 xl:col-span-8"></div>
+                    <div className="order-1 col-span-full lg:order-0 lg:col-span-6 xl:col-span-8">
+                        <DataTable table={table} />
+                    </div>
 
                     <div className="col-span-full lg:col-span-6 xl:col-span-4">
                         <div className="bg-card rounded-lg border p-5">
@@ -217,3 +242,30 @@ const UserDetails = () => {
 };
 
 export default UserDetails;
+
+const payouts: Payout[] = [
+    {
+        method: 'Paypal',
+        coinAmount: '2500',
+        status: 'Completed',
+        date: '2025-04-10T09:15:00Z',
+    },
+    {
+        method: 'Paypal',
+        coinAmount: '3200',
+        status: 'Pending',
+        date: '2025-04-20T13:42:00Z',
+    },
+    {
+        method: 'Paypal',
+        coinAmount: '4100',
+        status: 'Rejected',
+        date: '2025-03-30T17:05:00Z',
+    },
+    {
+        method: 'Paypal',
+        coinAmount: '1000',
+        status: 'Completed',
+        date: '2025-04-27T11:22:00Z',
+    },
+];
