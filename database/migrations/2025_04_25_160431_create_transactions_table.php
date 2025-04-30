@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->integer('coin_amount');
             $table->enum('reason', [Reason::RegistrationBonus->value, Reason::Adjoe->value, Reason::Cashout->value]);
             $table->uuid('app_user_uuid');
-            $table->foreign('app_user_uuid')->references('uuid')->on('app_users');
+            $table->foreign('app_user_uuid')->references('uuid')->on('app_users')->onDelete('cascade');
             $table->timestamps();
         });
     }
