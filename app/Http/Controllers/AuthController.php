@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserRegistered;
 use App\Http\Requests\StoreRegisterRequest;
-use App\Models\Setting;
-use App\Models\Transaction;
 use App\Models\User;
-use App\Models\AppUser;
 use App\Reason;
+use App\Services\LocationService;
+use App\Services\SettingsService;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -18,28 +16,44 @@ use Throwable;
 
 class AuthController extends Controller
 {
+    protected SettingsService $settings;
+    protected LocationService $location;
+
+    public function __construct(SettingsService $settings)
+    {
+        $this->settings = $settings;
+    }
+
     /**
      * @throws Throwable
      */
     public function register(StoreRegisterRequest $request)
     {
-        $coins = Setting::firstOrFail()->value('welcome_gift');
+        if (!$this->settings->isAccountAllowed($request->device_id)) {
+            return response()->json(
+                ['error' => 'Multiple accounts per device are not allowed.'],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
 
-        $user = DB::transaction(function () use ($request, $coins) {
+        $user = DB::transaction(function () use ($request) {
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
 
+            $bonus = $this->settings->registrationBonus();
+
             $appUser = $user->appUser()->create([
                 'device_id' => $request->device_id,
-                'coin_amount' => $coins,
+                'coin_amount' => $bonus,
+                'country_code' => $this->location->countyCode()
             ]);
 
             $appUser->transactions()->create([
                 'message' => 'Welcome gift',
-                'coin_amount' => $coins,
+                'coin_amount' => $bonus,
                 'reason' => Reason::RegistrationBonus
             ]);
 

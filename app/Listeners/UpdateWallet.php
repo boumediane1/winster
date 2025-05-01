@@ -5,9 +5,7 @@ namespace App\Listeners;
 use App\Events\PayoutReceived;
 use App\Events\UserRegistered;
 use App\Models\AppUser;
-use App\Models\Setting;
 use App\Models\Transaction;
-use App\Reason;
 
 class UpdateWallet
 {

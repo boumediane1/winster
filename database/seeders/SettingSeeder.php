@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Setting;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Settings;
 use Illuminate\Database\Seeder;
 
 class SettingSeeder extends Seeder
@@ -13,9 +12,14 @@ class SettingSeeder extends Seeder
      */
     public function run(): void
     {
-        Setting::create([
-            'welcome_gift' => 1440,
-            'allow_multiple_accounts' => true
+        Settings::create([
+            'key' => 'registration_bonus',
+            'value'=> 1440,
+        ]);
+
+        Settings::create([
+            'key' => 'multiple_accounts_allowed',
+            'value'=> 'false',
         ]);
     }
 }

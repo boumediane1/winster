@@ -12,10 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('settings', function (Blueprint $table) {
-            $table->id();
-            $table->integer('welcome_gift');
-            $table->boolean('allow_multiple_accounts');
-            $table->timestamps();
+            $table->string('key')->primary();
+            $table->string('value');
         });
     }
 
