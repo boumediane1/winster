@@ -10,21 +10,19 @@ class AppUserController extends Controller
     public function index()
     {
         $users = User::where('is_admin', false)
-            ->with('appuser')->get();
+            ->with('appUser')->paginate(7);
 
         return Inertia::render('registered-users/users', [
-            'users' => $users->map(function (User $user) {
-                return [
-                    'uuid' => $user->uuid,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'createdAt' => $user->created_at,
-                    'coin_amount' => $user->appUser->coin_amount,
-                    'device_id' => $user->appUser->device_id,
-                    'banned' => $user->appUser->is_banned,
-                    'countryCode' => $user->appUser->country_code
-                ];
-            })
+            'page' => $users->through(fn(User $user) => [
+                'uuid' => $user->uuid,
+                'name' => $user->name,
+                'email' => $user->email,
+                'createdAt' => $user->created_at,
+                'coin_amount' => $user->appUser->coin_amount,
+                'device_id' => $user->appUser->device_id,
+                'banned' => $user->appUser->is_banned,
+                'countryCode' => $user->appUser->country_code
+            ])
         ]);
     }
 

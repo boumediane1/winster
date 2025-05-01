@@ -7,12 +7,13 @@ import {
     ColumnFiltersState,
     getCoreRowModel,
     getFilteredRowModel,
-    getPaginationRowModel,
     useReactTable,
 } from '@tanstack/react-table';
 import * as React from 'react';
 import { DataTablePagination } from '@/components/data-table-pagination';
 import { Input } from '@/components/ui/input';
+import { useState } from 'react';
+import { router } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,24 +22,51 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const Users = ({ users }: { users: User[] }) => {
+interface Page {
+    page: {
+        per_page: number;
+        data: User[];
+        total: number;
+        current_page: number;
+    };
+}
+
+const Users = ({ page }: Page) => {
+    const [pagination, setPagination] = useState({
+        pageIndex: page.current_page - 1,
+        pageSize: page.per_page,
+    });
+
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
 
     const table = useReactTable({
-        data: users,
+        data: page.data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
+        manualPagination: true,
+        rowCount: page.total,
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
+        onPaginationChange: (updater) => {
+            if (typeof updater !== 'function') return;
+
+            const newPagination = updater(pagination);
+            setPagination(newPagination);
+
+            router.get(
+                route('users.index', { page: newPagination.pageIndex + 1 }),
+                {},
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    only: ['page'],
+                },
+            );
+        },
         state: {
             columnFilters,
-        },
-        initialState: {
-            pagination: {
-                pageSize: 7,
-            },
+            pagination,
         },
     });
 
@@ -75,5 +103,3 @@ const Users = ({ users }: { users: User[] }) => {
 };
 
 export default Users;
-
-export const users: User[] = [];

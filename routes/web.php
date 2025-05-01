@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/offerwalls', [OfferwallController::class, 'index'])->name('offerwalls.index');
     Route::get('/offerwalls/{offerwall}', [OfferwallController::class, 'show'])->name('offerwall.show');
 
-    Route::get('/users', [AppUserController::class, 'index']);
+    Route::get('/users', [AppUserController::class, 'index'])->name('users.index');
     Route::get('/users/banned', [AppUserController::class, 'banned'])->name('users.banned');
     Route::get('/users/{user}', [AppUserController::class, 'edit'])->name('users.edit');
 
