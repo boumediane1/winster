@@ -2,7 +2,7 @@ import AppLayout from '@/layouts/app/app-sidebar-layout';
 import Heading from '@/components/heading';
 import { BreadcrumbItem } from '@/types';
 import { DataTable } from '@/components/data-table';
-import { columns, User } from '@/pages/users/banned-users/columns';
+import { columns, User } from '@/pages/banned-users/columns';
 import {
     ColumnFiltersState,
     getCoreRowModel,

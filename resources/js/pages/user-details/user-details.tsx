@@ -16,7 +16,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import { columns, Payout } from '@/pages/users/columns';
+import { columns, Payout } from '@/pages/user-details/columns';
 import { DataTable } from '@/components/data-table';
 import {
     ColumnFiltersState,

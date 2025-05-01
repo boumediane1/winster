@@ -1,5 +1,5 @@
 import '/node_modules/flag-icons/css/flag-icons.min.css';
-import { users } from '@/pages/users/registered-users/users';
+import { users } from '@/pages/registered-users/users';
 
 const LatestLeads = () => {
     return (

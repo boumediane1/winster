@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app/app-sidebar-layout';
 import { BreadcrumbItem } from '@/types';
-import StatCard from '@/pages/users/stat-card';
+import StatCard from '@/pages/dashboard/stat-card';
 import UsersIcon from '@heroicons/react/24/outline/UsersIcon';
 import Heading from '@/components/heading';
 import LatestLeads from '@/pages/dashboard/latest-leads';
