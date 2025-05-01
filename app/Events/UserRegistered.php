@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\AppUser;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -13,7 +14,7 @@ class UserRegistered
     /**
      * Create a new event instance.
      */
-    public function __construct(public array $data)
+    public function __construct(public AppUser $user)
     {
 
     }
