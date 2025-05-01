@@ -7,16 +7,16 @@ import { Eye } from 'lucide-react';
 export interface User {
     name: string;
     email: string;
-    device: string;
+    deviceId: string;
     coinAmount: number;
-    status: 'active' | 'banned' | 'blocked' | 'suspended';
+    banned: boolean;
     createdAt: string;
-    countryCode: string;
+    countryCode?: string;
 }
 
 const badgeColor = {
-    active: 'bg-green-50 text-green-700 ring-green-600/20',
-    banned: 'bg-red-50 text-red-700 ring-red-600/10',
+    true: 'bg-green-50 text-green-700 ring-green-600/20',
+    false: 'bg-red-50 text-red-700 ring-red-600/10',
 };
 
 export const columns: ColumnDef<User>[] = [
@@ -24,7 +24,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'name',
         header: 'Name',
         cell: ({ row }) => {
-            const code = row.original.countryCode.toLowerCase();
+            const code = (row.original.countryCode ?? 'US').toLowerCase();
 
             return (
                 <div className="items-centerx flex gap-x-2">
@@ -43,16 +43,16 @@ export const columns: ColumnDef<User>[] = [
         header: 'Email',
     },
     {
-        accessorKey: 'status',
+        accessorKey: 'banned',
         header: 'Account status',
         cell: ({ row }) => {
-            const status: string = row.getValue('status');
+            const banned: string = row.getValue('banned');
 
             return (
                 <span
-                    className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${badgeColor[status]}`}
+                    className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${badgeColor[banned]}`}
                 >
-                    {row.getValue('status')}
+                    {banned ? 'banned' : 'active'}
                 </span>
             );
         },
