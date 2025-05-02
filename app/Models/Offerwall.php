@@ -9,11 +9,11 @@ class Offerwall extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'network_name',
+        'name',
         'logo',
         'sdk_key',
         'placement',
-        'url_secret',
+        'secret',
         'reward_amount_param',
         'user_id_param',
         'offer_id_param',

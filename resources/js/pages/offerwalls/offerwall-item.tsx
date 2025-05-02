@@ -16,11 +16,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export type OfferwallFrom = {
-    network_name: string;
+    name: string;
     logo?: File;
     sdk_key: string;
     placement: string;
-    url_secret: string;
+    secret: string;
     reward_amount_param: string;
     user_id_param: string;
     offer_id_param: string;
@@ -28,11 +28,11 @@ export type OfferwallFrom = {
 
 const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
     const { data, setData, post, processing, errors } = useForm<OfferwallFrom>({
-        network_name: offerwall.network_name,
+        name: offerwall.name,
         logo: null,
         sdk_key: offerwall.sdk_key,
         placement: offerwall.placement,
-        url_secret: offerwall.url_secret,
+        secret: offerwall.secret,
         reward_amount_param: offerwall.reward_amount_param,
         user_id_param: offerwall.user_id_param,
         offer_id_param: offerwall.offer_id_param,
@@ -62,16 +62,13 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                 <div className="mt-10 grid gap-x-4 gap-y-8 sm:grid-cols-2">
                                     <div className="grid gap-2">
                                         <Label htmlFor="network-name">
-                                            Network name
+                                            Name
                                         </Label>
                                         <Input
                                             id="network-name"
-                                            value={data.network_name}
+                                            value={data.name}
                                             onChange={(e) =>
-                                                setData(
-                                                    'network_name',
-                                                    e.target.value,
-                                                )
+                                                setData('name', e.target.value)
                                             }
                                         />
                                     </div>
@@ -129,16 +126,16 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
 
                                 <div className="mt-10 grid gap-x-4 gap-y-8 sm:grid-cols-3">
                                     <div className="grid gap-2">
-                                        <Label htmlFor="url_secret">
+                                        <Label htmlFor="secret">
                                             URL secret
                                         </Label>
                                         <Input
-                                            id="url_secret"
+                                            id="secret"
                                             placeholder="payout"
-                                            value={data.url_secret}
+                                            value={data.secret}
                                             onChange={(e) =>
                                                 setData(
-                                                    'url_secret',
+                                                    'secret',
                                                     e.target.value,
                                                 )
                                             }

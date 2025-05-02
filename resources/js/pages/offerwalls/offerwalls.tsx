@@ -12,11 +12,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export interface Offerwall {
     id: number;
-    network_name: string;
+    name: string;
     logo?: string | null;
     sdk_key: string;
     placement: string;
-    url_secret: string;
+    secret: string;
     reward_amount_param: string;
     user_id_param: string;
     offer_id_param: string;
@@ -36,12 +36,12 @@ const Offerwalls = ({ offerwalls }: { offerwalls: Offerwall[] }) => {
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {offerwalls.map((offerwall) => (
                         <OfferwallCard
-                            key={offerwall.network_name}
+                            key={offerwall.name}
                             id={offerwall.id}
-                            title={offerwall.network_name}
+                            title={offerwall.name}
                             type="Mobile SDK"
                             logo={`/storage/${offerwall.logo}`}
-                            classNames={backgroundColor[offerwall.network_name]}
+                            classNames={backgroundColor[offerwall.name]}
                         />
                     ))}
                 </div>

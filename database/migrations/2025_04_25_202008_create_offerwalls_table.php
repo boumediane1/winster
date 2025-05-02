@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('offerwalls', function (Blueprint $table) {
             $table->id();
-            $table->string('network_name');
+            $table->string('name');
             $table->string('logo')->nullable();
             $table->string('sdk_key');
             $table->string('placement');
 
-            $table->string('url_secret');
+            $table->string('secret');
             $table->string('reward_amount_param');
             $table->string('user_id_param');
             $table->string('offer_id_param');

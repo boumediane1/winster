@@ -13,6 +13,6 @@ Route::get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/payout', PayoutController::class);
+Route::get('/{secret}', PayoutController::class);
 
 Route::get('/transactions', [TransactionController::class, 'index'])->middleware('auth:sanctum');

@@ -22,10 +22,10 @@ class UpdateOfferwallRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'network_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'sdk_key' => 'required|string|max:255',
             'placement' => 'nullable|string|max:255',
-            'url_secret' => 'nullable|string|max:255',
+            'secret' => 'nullable|string|max:255',
             'reward_amount_param' => 'nullable|string|max:255',
             'user_id_param' => 'nullable|string|max:255',
             'offer_id_param' => 'nullable|string|max:255',

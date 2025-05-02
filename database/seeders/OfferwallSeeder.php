@@ -15,21 +15,21 @@ class OfferwallSeeder extends Seeder
     {
         DB::table('offerwalls')->insert([
             [
-                'network_name' => 'Adjoe',
-                'logo' => '/images/adjoe.png',
+                'name' => 'Adjoe',
+                'logo' => '/offerwalls/adjoe.png',
                 'sdk_key' => 'your-adjoe-sdk-key',
                 'placement' => 'default_placement',
-                'url_secret' => 'adjoe-secret',
+                'secret' => 'adjoe-secret',
                 'reward_amount_param' => 'amount',
                 'user_id_param' => 'user_id',
                 'offer_id_param' => 'ad_id',
             ],
             [
-                'network_name' => 'Tapjoy',
-                'logo' => '/images/tapjoy.png',
+                'name' => 'Tapjoy',
+                'logo' => '/offerwalls/tapjoy.png',
                 'sdk_key' => 'your-tapjoy-sdk-key',
                 'placement' => 'main_placement',
-                'url_secret' => 'tapjoy-secret',
+                'secret' => 'tapjoy-secret',
                 'reward_amount_param' => 'reward',
                 'user_id_param' => 'uid',
                 'offer_id_param' => 'oid',
