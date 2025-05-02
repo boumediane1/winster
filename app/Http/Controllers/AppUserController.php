@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class AppUserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $users = User::where('is_admin', false)
+            ->where('name', 'ILIKE', '%' . $request->query('name') . '%')
             ->with('appUser')->paginate(7);
 
         return Inertia::render('registered-users/users', [

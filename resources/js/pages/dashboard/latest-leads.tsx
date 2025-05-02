@@ -1,5 +1,4 @@
 import '/node_modules/flag-icons/css/flag-icons.min.css';
-import { users } from '@/pages/registered-users/users';
 
 const LatestLeads = () => {
     return (
@@ -14,7 +13,7 @@ const LatestLeads = () => {
             </div>
             <div className="p-6 pt-0">
                 <div className="space-y-8">
-                    {users.slice(0, 6).map((user) => (
+                    {[].slice(0, 6).map((user) => (
                         <div key={user.email} className="flex items-center">
                             <span
                                 className={`fi fi-${user.countryCode.toLowerCase()} fis rounded`}

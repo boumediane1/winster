@@ -6,7 +6,6 @@ import { BreadcrumbItem } from '@/types';
 import {
     ColumnFiltersState,
     getCoreRowModel,
-    getFilteredRowModel,
     useReactTable,
 } from '@tanstack/react-table';
 import * as React from 'react';
@@ -40,14 +39,35 @@ const Users = ({ page }: Page) => {
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
 
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get('name');
+
     const table = useReactTable({
         data: page.data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         manualPagination: true,
         rowCount: page.total,
-        onColumnFiltersChange: setColumnFilters,
-        getFilteredRowModel: getFilteredRowModel(),
+        onColumnFiltersChange: (updater) => {
+            if (typeof updater !== 'function') return;
+
+            const newColumnFilters = updater(columnFilters);
+            setColumnFilters(newColumnFilters);
+            console.log(newColumnFilters);
+
+            const name = newColumnFilters.length
+                ? newColumnFilters[0].value
+                : '';
+
+            router.get(
+                route('users.index', { name }),
+                {},
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                },
+            );
+        },
         onPaginationChange: (updater) => {
             if (typeof updater !== 'function') return;
 
@@ -55,7 +75,10 @@ const Users = ({ page }: Page) => {
             setPagination(newPagination);
 
             router.get(
-                route('users.index', { page: newPagination.pageIndex + 1 }),
+                route('users.index', {
+                    page: newPagination.pageIndex + 1,
+                    name,
+                }),
                 {},
                 {
                     preserveState: true,
@@ -81,7 +104,7 @@ const Users = ({ page }: Page) => {
                         value={
                             (table
                                 .getColumn('name')
-                                ?.getFilterValue() as string) ?? ''
+                                ?.getFilterValue() as string) ?? name
                         }
                         onChange={(event) =>
                             table
