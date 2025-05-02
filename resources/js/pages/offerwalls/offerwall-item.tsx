@@ -17,6 +17,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export type OfferwallFrom = {
     name: string;
+    slug: string;
     logo?: File;
     sdk_key: string;
     placement: string;
@@ -29,6 +30,7 @@ export type OfferwallFrom = {
 const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
     const { data, setData, post, processing, errors } = useForm<OfferwallFrom>({
         name: offerwall.name,
+        slug: offerwall.slug,
         logo: null,
         sdk_key: offerwall.sdk_key,
         placement: offerwall.placement,
@@ -59,7 +61,7 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                     Offerwall
                                 </h3>
 
-                                <div className="mt-10 grid gap-x-4 gap-y-8 sm:grid-cols-2">
+                                <div className="mt-10 grid gap-x-4 gap-y-8 sm:grid-cols-3">
                                     <div className="grid gap-2">
                                         <Label htmlFor="network-name">
                                             Name
@@ -69,6 +71,17 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                             value={data.name}
                                             onChange={(e) =>
                                                 setData('name', e.target.value)
+                                            }
+                                        />
+                                    </div>
+
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="slug">Slug</Label>
+                                        <Input
+                                            id="slug"
+                                            value={data.slug}
+                                            onChange={(e) =>
+                                                setData('slug', e.target.value)
                                             }
                                         />
                                     </div>
@@ -86,7 +99,9 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                             }
                                         />
                                     </div>
+                                </div>
 
+                                <div className="mt-10 grid gap-x-4 gap-y-8 sm:grid-cols-2">
                                     <div className="grid gap-2">
                                         <Label htmlFor="sdk">SDK key</Label>
                                         <Input

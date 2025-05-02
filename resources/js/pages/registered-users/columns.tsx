@@ -8,7 +8,7 @@ export interface User {
     name: string;
     email: string;
     deviceId: string;
-    coinAmount: number;
+    coin_amount: number;
     banned: boolean;
     createdAt: string;
     countryCode?: string;
@@ -68,12 +68,13 @@ export const columns: ColumnDef<User>[] = [
         },
     },
     {
-        accessorKey: 'coinAmount',
+        accessorKey: 'coin_amount',
         header: () => <div className="text-right">Coin amount</div>,
         cell: ({ row }) => {
+            console.log(row.original);
             return (
                 <div className="text-right font-medium">
-                    {row.getValue('coinAmount')}
+                    {row.getValue('coin_amount')}
                 </div>
             );
         },

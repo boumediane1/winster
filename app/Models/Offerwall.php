@@ -10,6 +10,7 @@ class Offerwall extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'logo',
         'sdk_key',
         'placement',

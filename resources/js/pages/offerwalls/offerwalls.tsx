@@ -13,6 +13,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 export interface Offerwall {
     id: number;
     name: string;
+    slug: string;
     logo?: string | null;
     sdk_key: string;
     placement: string;

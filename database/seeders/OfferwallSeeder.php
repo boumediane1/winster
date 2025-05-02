@@ -16,6 +16,7 @@ class OfferwallSeeder extends Seeder
         DB::table('offerwalls')->insert([
             [
                 'name' => 'Adjoe',
+                'slug' => 'adjoe',
                 'logo' => '/offerwalls/adjoe.png',
                 'sdk_key' => 'your-adjoe-sdk-key',
                 'placement' => 'default_placement',
@@ -26,6 +27,7 @@ class OfferwallSeeder extends Seeder
             ],
             [
                 'name' => 'Tapjoy',
+                'slug' => 'tapjoy',
                 'logo' => '/offerwalls/tapjoy.png',
                 'sdk_key' => 'your-tapjoy-sdk-key',
                 'placement' => 'main_placement',

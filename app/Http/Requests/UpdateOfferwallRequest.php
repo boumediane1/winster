@@ -23,6 +23,7 @@ class UpdateOfferwallRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255',
             'sdk_key' => 'required|string|max:255',
             'placement' => 'nullable|string|max:255',
             'secret' => 'nullable|string|max:255',

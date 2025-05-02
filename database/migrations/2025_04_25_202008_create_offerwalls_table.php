@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('offerwalls', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug');
             $table->string('logo')->nullable();
             $table->string('sdk_key');
             $table->string('placement');
