@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/react';
 import { Offerwall } from '@/types/offerwall';
 import { Button } from '@/components/ui/button';
 
-const OfferwallCard = ({ title, type, logo, classNames }: Offerwall) => {
+const OfferwallCard = ({ id, title, type, logo, classNames }: Offerwall) => {
     return (
         <div className={`space-y-8 rounded-lg p-5 ${classNames}`}>
             <div className="flex items-center justify-between">
@@ -25,7 +25,7 @@ const OfferwallCard = ({ title, type, logo, classNames }: Offerwall) => {
             >
                 <Link
                     as="button"
-                    href={route('offerwall.show', { offerwall: 1 })}
+                    href={route('offerwall.edit', { offerwall: id })}
                 >
                     <Cog6ToothIcon className="size-6" />
                     <span className="text-sm">Manage</span>

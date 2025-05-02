@@ -10,26 +10,40 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const Offerwalls = () => {
+export interface Offerwall {
+    id: number;
+    network_name: string;
+    logo?: string | null;
+    sdk_key: string;
+    placement: string;
+    url_secret: string;
+    reward_amount_param: string;
+    user_id_param: string;
+    offer_id_param: string;
+}
+
+const backgroundColor = {
+    Adjoe: 'bg-indigo-50',
+    Tapjoy: 'bg-red-50',
+};
+
+const Offerwalls = ({ offerwalls }: { offerwalls: Offerwall[] }) => {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <div className="px-6 py-6 md:px-8">
                 <Heading title="Offerwalls" />
 
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    <OfferwallCard
-                        title="Adjoe"
-                        type="Mobile SDK"
-                        logo="/images/adjoe.png"
-                        classNames="bg-indigo-50"
-                    />
-
-                    <OfferwallCard
-                        title="Tapjoy"
-                        type="Mobile SDK"
-                        logo="/images/tapjoy.png"
-                        classNames="bg-red-50"
-                    />
+                    {offerwalls.map((offerwall) => (
+                        <OfferwallCard
+                            key={offerwall.network_name}
+                            id={offerwall.id}
+                            title={offerwall.network_name}
+                            type="Mobile SDK"
+                            logo={`/storage/${offerwall.logo}`}
+                            classNames={backgroundColor[offerwall.network_name]}
+                        />
+                    ))}
                 </div>
             </div>
         </AppLayout>

@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AppUserSeeder::class,
-            SettingSeeder::class
+            SettingSeeder::class,
+            OfferwallSeeder::class
         ]);
     }
 }

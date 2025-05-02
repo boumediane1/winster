@@ -29,11 +29,6 @@ export const columns: ColumnDef<Payout>[] = [
     {
         accessorKey: 'method',
         header: 'Payment method',
-        cell: () => {
-            return (
-                <img className="w-18" src="/images/paypal.svg" alt="paypal" />
-            );
-        },
     },
     {
         accessorKey: 'coinAmount',

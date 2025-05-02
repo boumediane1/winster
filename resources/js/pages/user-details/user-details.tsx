@@ -86,7 +86,7 @@ const UserDetails = () => {
                                     value="activity"
                                     className="cursor-pointer"
                                 >
-                                    Activity
+                                    Activity history
                                 </TabsTrigger>
                             </TabsList>
 
