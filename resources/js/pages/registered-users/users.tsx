@@ -31,7 +31,7 @@ const Users = ({ page }: Page<User>) => {
         React.useState<ColumnFiltersState>([]);
 
     const params = new URLSearchParams(window.location.search);
-    const name = params.get('name');
+    const name = params.get('name') ?? '';
 
     const table = useReactTable({
         data: page.data,
