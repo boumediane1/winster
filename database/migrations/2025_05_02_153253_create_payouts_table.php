@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('offerwall_transactions', function (Blueprint $table) {
+        Schema::create('payouts', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->foreignIdFor(Offerwall::class)->constrained();
             $table->foreignUuid('user_uuid')->references('uuid')->on('users');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('offerwall_transactions');
+        Schema::dropIfExists('payouts');
     }
 };
