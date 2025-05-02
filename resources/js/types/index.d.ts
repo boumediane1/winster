@@ -42,6 +42,15 @@ export interface SharedData {
     [key: string]: unknown;
 }
 
+export interface Page<T> {
+    page: {
+        data: T[];
+        current_page: number;
+        per_page: number;
+        total: number;
+    };
+}
+
 export interface User {
     id: number;
     name: string;

@@ -2,7 +2,7 @@ import AppLayout from '@/layouts/app/app-sidebar-layout';
 import Heading from '@/components/heading';
 import { columns, User } from './columns';
 import { DataTable } from '@/components/data-table';
-import { BreadcrumbItem } from '@/types';
+import { BreadcrumbItem, Page } from '@/types';
 import {
     ColumnFiltersState,
     getCoreRowModel,
@@ -21,16 +21,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-interface Page {
-    page: {
-        per_page: number;
-        data: User[];
-        total: number;
-        current_page: number;
-    };
-}
-
-const Users = ({ page }: Page) => {
+const Users = ({ page }: Page<User>) => {
     const [pagination, setPagination] = useState({
         pageIndex: page.current_page - 1,
         pageSize: page.per_page,
@@ -53,20 +44,15 @@ const Users = ({ page }: Page) => {
 
             const newColumnFilters = updater(columnFilters);
             setColumnFilters(newColumnFilters);
-            console.log(newColumnFilters);
 
-            const name = newColumnFilters.length
-                ? newColumnFilters[0].value
-                : '';
+            const name =
+                newColumnFilters.length > 0 ? newColumnFilters[0].value : '';
 
-            router.get(
-                route('users.index', { name }),
-                {},
-                {
-                    preserveState: true,
-                    preserveScroll: true,
-                },
-            );
+            router.visit(route('users.index', { name }), {
+                preserveState: true,
+                preserveScroll: true,
+                only: ['page'],
+            });
         },
         onPaginationChange: (updater) => {
             if (typeof updater !== 'function') return;
