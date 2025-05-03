@@ -2,45 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\PayoutReceived;
-use App\Http\Requests\StorePayoutRequest;
+use App\Models\AppUser;
 use App\Models\Payout;
-use App\Models\User;
-use App\Reason;
+use App\Services\PayoutService;
+use App\Services\WalletManagerService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class PayoutController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(StorePayoutRequest $request)
+    private PayoutService $payout;
+    private WalletManagerService $walletManager;
+
+    public function __construct(PayoutService $payout, WalletManagerService $walletManager)
     {
-        $user = User::find($request->query('user_uuid'));
+        $this->payout = $payout;
+        $this->walletManager = $walletManager;
+    }
 
-        if (!$user) {
-            return response()->json(['error' => 'User not found'], 404);
-        }
+    public function __invoke(Request $request)
+    {
+        $offerwall = $this->payout->validateCallbackURL($request);
 
-        $transaction = new Payout([
-            'coin_amount' => $request->query('coin_amount'),
-            'app_name' => $request->query('app_name')
+         if ($offerwall === null) {
+             return response()->json(['error' => 'Invalid callback URL'], Response::HTTP_NOT_FOUND);
+         }
+
+        $userId = $request->query($offerwall->user_id_param);
+        $rewardAmount = $request->query($offerwall->reward_amount_param);
+        $offerId = $request->query($offerwall->offer_id_param);
+        $source = $request->route('offerwall');
+
+        $user = AppUser::query()->find($userId);
+
+        $payout = new Payout([
+            'offer_id' => $offerId,
+            'reward_amount' => $rewardAmount,
         ]);
+        $payout->user()->associate($user);
+        $payout->offerwall()->associate($offerwall);
 
-        $transaction->user()->associate($user);
-
-        $saved = $transaction->save();
-
-        if ($saved) {
-            PayoutReceived::dispatch(
-                [
-                    'user_uuid' => $transaction->user_uuid,
-                    'message' => $transaction->app_name,
-                    'coin_amount' => $transaction->coin_amount,
-                    'reason' => Reason::Adjoe,
-                ]
-            );
+        try {
+            DB::transaction(function () use ($source, $rewardAmount, $user, $payout) {
+                $payout->save();
+                $this->walletManager->reward($user, $rewardAmount, $source);
+            });
+        } catch (Throwable $e) {
+            return response()->json(['error' => $e->getMessage()]);
         }
 
-        return $saved;
+        return response()->json(['success' => 'Payout has been made.'], Response::HTTP_CREATED);
     }
 }

@@ -13,11 +13,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payouts', function (Blueprint $table) {
-            $table->uuid()->primary();
+            $table->id();
             $table->foreignIdFor(Offerwall::class)->constrained();
-            $table->foreignUuid('user_uuid')->references('uuid')->on('users');
-            $table->integer('reward_amount');
             $table->string('offer_id');
+            $table->foreignUuid('user_id')->references('uuid')->on('app_users');
+            $table->integer('reward_amount');
             $table->timestamp('created_at')->useCurrent();
         });
     }

@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Transaction extends Model
 {
-    protected $fillable = ['message', 'coin_amount', 'reason'];
+    protected $fillable = ['source', 'coin_amount'];
+    public $timestamps = false;
 
-    public function appUser(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(AppUser::class);
     }

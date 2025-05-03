@@ -7,7 +7,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Payout extends Model
 {
-    public function offerwall(): BelongsTo {
+    public $timestamps = false;
+
+    protected $fillable = ['offer_id', 'reward_amount'];
+
+    public function offerwall(): BelongsTo
+    {
         return $this->belongsTo(Offerwall::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(AppUser::class, 'user_id');
     }
 }

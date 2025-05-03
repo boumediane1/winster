@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\AppUser;
-use App\Models\User;
 use App\Reason;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,12 +13,11 @@ return new class extends Migration {
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('message');
+            $table->string('source');
             $table->integer('coin_amount');
-            $table->enum('reason', [Reason::RegistrationBonus->value, Reason::Adjoe->value, Reason::Cashout->value]);
-            $table->uuid('app_user_uuid');
-            $table->foreign('app_user_uuid')->references('uuid')->on('app_users')->onDelete('cascade');
-            $table->timestamps();
+            $table->uuid('user_uuid');
+            $table->foreign('user_uuid')->references('uuid')->on('app_users')->onDelete('cascade');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
