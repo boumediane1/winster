@@ -12,7 +12,7 @@ class OfferwallController extends Controller
 {
     public function index() {
         return Inertia::render('offerwalls/offerwall-list', [
-            'offerwalls' => Offerwall::all()
+            'offerwalls' => Offerwall::query()->orderBy('id')->get()
         ]);
     }
 
@@ -24,7 +24,7 @@ class OfferwallController extends Controller
         $validated = $request->validated();
 
         if ($request->hasFile('logo')) {
-            $file = $request->file('file');
+            $file = $request->file('logo');
             $filename = time() . '-' . $file->getClientOriginalName();
             $path = $file->storeAs('offerwalls', $filename, 'public');
             $validated['logo'] = $path;
@@ -51,7 +51,7 @@ class OfferwallController extends Controller
                 Storage::disk('public')->delete($offerwall->logo);
             }
 
-            $file = $request->file('file');
+            $file = $request->file('logo');
             $filename = time() . '-' . $file->getClientOriginalName();
             $path = $file->storeAs('offerwalls', $filename, 'public');
             $validated['logo'] = $path;
