@@ -26,7 +26,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::get('/offerwalls', [OfferwallController::class, 'index'])->name('offerwalls.index');
-    Route::get('/offerwalls/{offerwall}', [OfferwallController::class, 'edit'])->name('offerwall.edit');
+    Route::get('/offerwalls/create', [OfferwallController::class, 'create'])->name('offerwall.create');
+    Route::post('/offerwalls', [OfferwallController::class, 'store'])->name('offerwall.store');
+    Route::get('/offerwalls/{offerwall}/edit', [OfferwallController::class, 'edit'])->name('offerwall.edit');
     Route::put('/offerwalls/{offerwall}', [OfferwallController::class, 'update'])->name('offerwall.update');
 
     Route::get('/users', [AppUserController::class, 'index'])->name('users.index');

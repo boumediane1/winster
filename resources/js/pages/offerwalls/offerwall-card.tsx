@@ -14,7 +14,9 @@ const OfferwallCard = ({ id, title, type, logo, classNames }: Offerwall) => {
 
                     <div className="text-sm text-gray-500">{type}</div>
                 </div>
-                <img src={logo} className="h-12 rounded-full" alt="" />
+                {logo && (
+                    <img src={logo} className="h-12 rounded-full" alt="" />
+                )}
             </div>
 
             <Button

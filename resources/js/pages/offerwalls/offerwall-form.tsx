@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { BreadcrumbItem } from '@/types';
 import { router, useForm, usePage } from '@inertiajs/react';
-import { Offerwall } from '@/pages/offerwalls/offerwalls';
+import { Offerwall } from '@/pages/offerwalls/offerwall-list';
 import { FormEvent } from 'react';
 import InputError from '@/components/input-error';
 
@@ -16,7 +16,8 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export type OfferwallFrom = {
+export type OfferwallFromData = {
+    _method?: 'put';
     name: string;
     slug: string;
     logo?: File;
@@ -28,37 +29,34 @@ export type OfferwallFrom = {
     offer_id_param: string;
 };
 
-const OfferwallItem = () => {
+const OfferwallForm = () => {
     const { props } = usePage<{ offerwall: Offerwall }>();
     const { offerwall, errors } = props;
-    console.log(offerwall);
-    console.log(errors);
 
-    const { data, setData } = useForm<OfferwallFrom>({
-        name: offerwall.name,
-        slug: offerwall.slug,
+    const { data, setData } = useForm<OfferwallFromData>({
+        name: offerwall ? offerwall.name : '',
+        slug: offerwall ? offerwall.slug : '',
         logo: null,
-        sdk_key: offerwall.sdk_key,
-        placement: offerwall.placement,
-        secret: offerwall.secret,
-        reward_amount_param: offerwall.reward_amount_param,
-        user_id_param: offerwall.user_id_param,
-        offer_id_param: offerwall.offer_id_param,
+        sdk_key: offerwall ? offerwall.sdk_key : '',
+        placement: offerwall ? offerwall.placement : '',
+        secret: offerwall ? offerwall.secret : '',
+        reward_amount_param: offerwall ? offerwall.reward_amount_param : '',
+        user_id_param: offerwall ? offerwall.user_id_param : '',
+        offer_id_param: offerwall ? offerwall.offer_id_param : '',
     });
 
     const submit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        router.post(
-            route('offerwall.update', { offerwall: offerwall.id }),
-            {
-                _method: 'put',
-                ...data,
-            },
-            {
-                preserveState: true,
-                preserveScroll: true,
-            },
-        );
+
+        let url = route('offerwall.store');
+        let form = data;
+
+        if (offerwall) {
+            url = route('offerwall.update', { offerwall: offerwall.id });
+            form = { _method: 'put', ...data };
+        }
+
+        router.post(url, form, { preserveState: true, preserveScroll: true });
     };
 
     return (
@@ -249,4 +247,4 @@ const OfferwallItem = () => {
     );
 };
 
-export default OfferwallItem;
+export default OfferwallForm;
