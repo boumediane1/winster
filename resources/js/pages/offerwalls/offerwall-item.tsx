@@ -4,9 +4,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { BreadcrumbItem } from '@/types';
-import { router, useForm } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
 import { Offerwall } from '@/pages/offerwalls/offerwalls';
 import { FormEvent } from 'react';
+import InputError from '@/components/input-error';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -27,8 +28,13 @@ export type OfferwallFrom = {
     offer_id_param: string;
 };
 
-const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
-    const { data, setData, post, processing, errors } = useForm<OfferwallFrom>({
+const OfferwallItem = () => {
+    const { props } = usePage<{ offerwall: Offerwall }>();
+    const { offerwall, errors } = props;
+    console.log(offerwall);
+    console.log(errors);
+
+    const { data, setData } = useForm<OfferwallFrom>({
         name: offerwall.name,
         slug: offerwall.slug,
         logo: null,
@@ -42,10 +48,17 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
 
     const submit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        router.post(route('offerwall.update', { offerwall: offerwall.id }), {
-            _method: 'put',
-            ...data,
-        });
+        router.post(
+            route('offerwall.update', { offerwall: offerwall.id }),
+            {
+                _method: 'put',
+                ...data,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
     };
 
     return (
@@ -62,7 +75,7 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                 </h3>
 
                                 <div className="mt-10 grid gap-x-4 gap-y-8 sm:grid-cols-3">
-                                    <div className="grid gap-2">
+                                    <div className="flex flex-col gap-y-2">
                                         <Label htmlFor="network-name">
                                             Name
                                         </Label>
@@ -73,9 +86,10 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                                 setData('name', e.target.value)
                                             }
                                         />
+                                        <InputError message={errors.name} />
                                     </div>
 
-                                    <div className="grid gap-2">
+                                    <div className="flex flex-col gap-y-2">
                                         <Label htmlFor="slug">Slug</Label>
                                         <Input
                                             id="slug"
@@ -84,9 +98,10 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                                 setData('slug', e.target.value)
                                             }
                                         />
+                                        <InputError message={errors.slug} />
                                     </div>
 
-                                    <div className="grid gap-2">
+                                    <div className="flex flex-col gap-y-2">
                                         <Label htmlFor="logo">Logo</Label>
                                         <Input
                                             type="file"
@@ -98,11 +113,12 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                                 )
                                             }
                                         />
+                                        <InputError message={errors.logo} />
                                     </div>
                                 </div>
 
                                 <div className="mt-10 grid gap-x-4 gap-y-8 sm:grid-cols-2">
-                                    <div className="grid gap-2">
+                                    <div className="flex flex-col gap-y-2">
                                         <Label htmlFor="sdk">SDK key</Label>
                                         <Input
                                             id="sdk"
@@ -114,9 +130,10 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                                 )
                                             }
                                         />
+                                        <InputError message={errors.sdk_key} />
                                     </div>
 
-                                    <div className="grid gap-2">
+                                    <div className="flex flex-col gap-y-2">
                                         <Label htmlFor="placement">
                                             Placement
                                         </Label>
@@ -130,6 +147,9 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                                 )
                                             }
                                         />
+                                        <InputError
+                                            message={errors.placement}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +160,7 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                 </h3>
 
                                 <div className="mt-10 grid gap-x-4 gap-y-8 sm:grid-cols-3">
-                                    <div className="grid gap-2">
+                                    <div className="flex flex-col gap-y-2">
                                         <Label htmlFor="secret">
                                             URL secret
                                         </Label>
@@ -155,9 +175,10 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                                 )
                                             }
                                         />
+                                        <InputError message={errors.secret} />
                                     </div>
 
-                                    <div className="grid gap-2">
+                                    <div className="flex flex-col gap-y-2">
                                         <Label htmlFor="reward-amount">
                                             Reward amount
                                         </Label>
@@ -172,9 +193,12 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                                 )
                                             }
                                         />
+                                        <InputError
+                                            message={errors.reward_amount_param}
+                                        />
                                     </div>
 
-                                    <div className="grid gap-2">
+                                    <div className="flex flex-col gap-y-2">
                                         <Label htmlFor="user-id">User ID</Label>
                                         <Input
                                             id="user-id"
@@ -187,9 +211,12 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                                 )
                                             }
                                         />
+                                        <InputError
+                                            message={errors.user_id_param}
+                                        />
                                     </div>
 
-                                    <div className="grid gap-2">
+                                    <div className="flex flex-col gap-y-2">
                                         <Label htmlFor="offer-id">
                                             Offer ID
                                         </Label>
@@ -203,6 +230,9 @@ const OfferwallItem = ({ offerwall }: { offerwall: Offerwall }) => {
                                                     e.target.value,
                                                 )
                                             }
+                                        />
+                                        <InputError
+                                            message={errors.offer_id_param}
                                         />
                                     </div>
                                 </div>

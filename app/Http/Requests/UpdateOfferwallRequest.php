@@ -25,11 +25,11 @@ class UpdateOfferwallRequest extends FormRequest
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
             'sdk_key' => 'required|string|max:255',
-            'placement' => 'nullable|string|max:255',
-            'secret' => 'nullable|string|max:255',
-            'reward_amount_param' => 'nullable|string|max:255',
-            'user_id_param' => 'nullable|string|max:255',
-            'offer_id_param' => 'nullable|string|max:255',
+            'placement' => 'required|string|max:255',
+            'secret' => 'required|string|max:255',
+            'reward_amount_param' => 'required|string|max:255',
+            'user_id_param' => 'required|string|max:255',
+            'offer_id_param' => 'required|string|max:255',
             'logo' => 'nullable|image|max:2048',
         ];
     }

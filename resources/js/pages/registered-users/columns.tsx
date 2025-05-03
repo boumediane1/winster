@@ -71,7 +71,6 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'coin_amount',
         header: () => <div className="text-right">Coin amount</div>,
         cell: ({ row }) => {
-            console.log(row.original);
             return (
                 <div className="text-right font-medium">
                     {row.getValue('coin_amount')}
