@@ -2,20 +2,6 @@ import AppLayout from '@/layouts/app/app-sidebar-layout';
 import { BreadcrumbItem } from '@/types';
 import Heading from '@/components/heading';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { PencilSquareIcon } from '@heroicons/react/24/outline';
-import { Calendar, Send, Smartphone, UserRound } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from '@/components/ui/dialog';
 import { columns, Payout } from '@/pages/user-details/columns';
 import { DataTable } from '@/components/data-table';
 import {
@@ -29,14 +15,6 @@ import * as React from 'react';
 import { DataTablePagination } from '@/components/data-table-pagination';
 import UserSummaryCard from '@/pages/user-details/user-summary-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -74,7 +52,7 @@ const UserDetails = () => {
                 <div className="grid grid-cols-12 gap-4">
                     <div className="order-last col-span-full lg:order-first xl:col-span-6 2xl:col-span-8">
                         <Tabs defaultValue="withdrawals">
-                            <TabsList>
+                            <TabsList className="h-10 w-96">
                                 <TabsTrigger
                                     value="withdrawals"
                                     className="cursor-pointer"
