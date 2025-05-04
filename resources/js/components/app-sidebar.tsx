@@ -12,6 +12,7 @@ import {
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
+    Banknote,
     Gamepad2,
     LayoutGrid,
     UserCog,
@@ -45,6 +46,11 @@ const mainNavItems: NavItem[] = [
                 icon: UserRoundX,
             },
         ],
+    },
+    {
+        title: 'Withdrawals',
+        href: '/withdrawals',
+        icon: Banknote,
     },
     {
         title: 'Offerwalls',

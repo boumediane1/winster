@@ -1,6 +1,5 @@
 import AppLayout from '@/layouts/app/app-sidebar-layout';
 import Heading from '@/components/heading';
-import { columns, AppUser } from './columns';
 import { DataTable } from '@/components/data-table';
 import { BreadcrumbItem, Page } from '@/types';
 import {
@@ -12,7 +11,9 @@ import * as React from 'react';
 import { DataTablePagination } from '@/components/data-table-pagination';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
-import { router } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
+import { AppUser } from '../registered-users/columns';
+import { columns } from '@/pages/withdrawals/columns';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,10 +22,22 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const Users = (users: Page<AppUser>) => {
+export interface Withdrawal {
+    id: number;
+    app_user: AppUser;
+    payment_method: string;
+    coins: string;
+    status: string;
+    created_at: string;
+}
+
+const WithdrawalList = () => {
+    const { withdrawals } = usePage<{ withdrawals: Page<Withdrawal> }>().props;
+    console.log(withdrawals.data);
+
     const [pagination, setPagination] = useState({
-        pageIndex: users.current_page - 1,
-        pageSize: users.per_page,
+        pageIndex: withdrawals.current_page - 1,
+        pageSize: withdrawals.per_page,
     });
 
     const [columnFilters, setColumnFilters] =
@@ -34,11 +47,11 @@ const Users = (users: Page<AppUser>) => {
     const name = params.get('name') ?? '';
 
     const table = useReactTable({
-        data: users.data,
+        data: withdrawals.data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         manualPagination: true,
-        rowCount: users.total,
+        rowCount: withdrawals.total,
         onColumnFiltersChange: (updater) => {
             if (typeof updater !== 'function') return;
 
@@ -48,10 +61,10 @@ const Users = (users: Page<AppUser>) => {
             const name =
                 newColumnFilters.length > 0 ? newColumnFilters[0].value : '';
 
-            router.visit(route('users.index', { name }), {
+            router.visit(route('withdrawals.index', { name }), {
                 preserveState: true,
                 preserveScroll: true,
-                only: ['data'],
+                only: ['page'],
             });
         },
         onPaginationChange: (updater) => {
@@ -69,7 +82,7 @@ const Users = (users: Page<AppUser>) => {
                 {
                     preserveState: true,
                     preserveScroll: true,
-                    only: ['data'],
+                    only: ['page'],
                 },
             );
         },
@@ -111,4 +124,4 @@ const Users = (users: Page<AppUser>) => {
     );
 };
 
-export default Users;
+export default WithdrawalList;

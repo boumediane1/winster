@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\AppUser;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -10,22 +10,11 @@ class AppUserController extends Controller
 {
     public function index(Request $request)
     {
-        $users = User::where('is_admin', false)
-            ->where('name', 'ILIKE', '%' . $request->query('name') . '%')
-            ->with('appUser')->paginate(7);
+        $users = AppUser::query()
+            ->whereRelation('user', 'name', 'ILIKE', '%' . $request->query('name') . '%')
+            ->with('user')->paginate(7);
 
-        return Inertia::render('registered-users/users', [
-            'page' => $users->through(fn(User $user) => [
-                'uuid' => $user->uuid,
-                'name' => $user->name,
-                'email' => $user->email,
-                'createdAt' => $user->created_at,
-                'coin_amount' => $user->appUser->coin_amount,
-                'device_id' => $user->appUser->device_id,
-                'banned' => $user->appUser->is_banned,
-                'countryCode' => $user->appUser->country_code
-            ])
-        ]);
+        return Inertia::render('registered-users/users', $users);
     }
 
     public function edit()

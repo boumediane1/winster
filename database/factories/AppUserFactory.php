@@ -24,7 +24,7 @@ class AppUserFactory extends Factory
         return [
             'coin_amount' => $this->faker->numberBetween(0, 1000),
             'device_id' => $this->faker->uuid,
-            'is_banned' => $this->faker->boolean,
+            'banned' => $this->faker->boolean,
             'ip_address' => $ip,
             'country_code' => $countryCode,
         ];

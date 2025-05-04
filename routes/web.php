@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthenticatedSessionController;
 use App\Http\Controllers\AppUserController;
 use App\Http\Controllers\OfferwallController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WithdrawalController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -25,15 +26,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
+    Route::get('/users', [AppUserController::class, 'index'])->name('users.index');
+    Route::get('/users/banned', [AppUserController::class, 'banned'])->name('users.banned');
+    Route::get('/users/{user}', [AppUserController::class, 'edit'])->name('users.edit');
+
     Route::get('/offerwalls', [OfferwallController::class, 'index'])->name('offerwalls.index');
     Route::get('/offerwalls/create', [OfferwallController::class, 'create'])->name('offerwall.create');
     Route::post('/offerwalls', [OfferwallController::class, 'store'])->name('offerwall.store');
     Route::get('/offerwalls/{offerwall}/edit', [OfferwallController::class, 'edit'])->name('offerwall.edit');
     Route::put('/offerwalls/{offerwall}', [OfferwallController::class, 'update'])->name('offerwall.update');
 
-    Route::get('/users', [AppUserController::class, 'index'])->name('users.index');
-    Route::get('/users/banned', [AppUserController::class, 'banned'])->name('users.banned');
-    Route::get('/users/{user}', [AppUserController::class, 'edit'])->name('users.edit');
+    Route::get('/withdrawals', [WithdrawalController::class, 'index']);
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

@@ -43,12 +43,10 @@ export interface SharedData {
 }
 
 export interface Page<T> {
-    page: {
-        data: T[];
-        current_page: number;
-        per_page: number;
-        total: number;
-    };
+    data: T[];
+    current_page: number;
+    per_page: number;
+    total: number;
 }
 
 export interface User {

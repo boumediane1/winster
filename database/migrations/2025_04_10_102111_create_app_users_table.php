@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreign('uuid')->references('uuid')->on('users')->onDelete('cascade');
             $table->integer('coin_amount')->default(0);
             $table->string('device_id');
-            $table->boolean('is_banned')->default(false);
+            $table->boolean('banned')->default(false);
             $table->ipAddress();
             $table->string('country_code')->nullable();
             $table->timestamps();

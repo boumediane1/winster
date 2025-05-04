@@ -3,15 +3,14 @@ import { Button } from '@/components/ui/button';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
 import { Link } from '@inertiajs/react';
 import { Eye } from 'lucide-react';
+import { User } from '@/types';
 
-export interface User {
-    name: string;
-    email: string;
-    deviceId: string;
+export interface AppUser {
+    device_id: string;
     coin_amount: number;
     banned: boolean;
-    createdAt: string;
-    countryCode?: string;
+    country_code?: string;
+    user: User;
 }
 
 const badgeColor = {
@@ -19,12 +18,14 @@ const badgeColor = {
     false: 'bg-red-50 text-red-700 ring-red-600/10',
 };
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<AppUser>[] = [
     {
         accessorKey: 'name',
+        accessorFn: (row) => row.user.name,
         header: 'Name',
+        enableHiding: false,
         cell: ({ row }) => {
-            const code = (row.original.countryCode ?? 'US').toLowerCase();
+            const code = (row.original.country_code ?? 'US').toLowerCase();
 
             return (
                 <div className="items-centerx flex gap-x-2">
@@ -33,13 +34,13 @@ export const columns: ColumnDef<User>[] = [
                         style={{ width: '1.25rem', height: '1.25rem' }}
                     />
 
-                    <span>{row.getValue('name')}</span>
+                    <span>{row.original.user.name}</span>
                 </div>
             );
         },
     },
     {
-        accessorKey: 'email',
+        accessorFn: (row) => row.user.email,
         header: 'Email',
     },
     {
