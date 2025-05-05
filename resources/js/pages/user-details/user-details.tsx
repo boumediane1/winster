@@ -51,7 +51,7 @@ const UserDetails = () => {
 
                 <div className="grid grid-cols-12 gap-4">
                     <div className="order-last col-span-full lg:order-first xl:col-span-6 2xl:col-span-8">
-                        <Tabs defaultValue="withdrawals">
+                        <Tabs defaultValue="withdrawals" className="gap-y-4">
                             <TabsList className="h-10 w-96">
                                 <TabsTrigger
                                     value="withdrawals"
@@ -80,7 +80,7 @@ const UserDetails = () => {
                         </Tabs>
                     </div>
 
-                    <div className="col-span-full lg:mt-[44px] xl:col-span-6 2xl:col-span-4">
+                    <div className="col-span-full lg:mt-[55px] xl:col-span-6 2xl:col-span-4">
                         <UserSummaryCard />
                     </div>
                 </div>

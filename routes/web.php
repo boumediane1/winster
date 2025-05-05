@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/offerwalls/{offerwall}/edit', [OfferwallController::class, 'edit'])->name('offerwall.edit');
     Route::put('/offerwalls/{offerwall}', [OfferwallController::class, 'update'])->name('offerwall.update');
 
-    Route::get('/withdrawals', [WithdrawalController::class, 'index']);
+    Route::get('/withdrawals', [WithdrawalController::class, 'index'])->name('withdrawals.index');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

@@ -11,17 +11,7 @@ import {
 } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import {
-    Banknote,
-    Gamepad2,
-    LayoutGrid,
-    UserCog,
-    UserMinus,
-    UserRound,
-    UserRoundX,
-    Users,
-    Wallet,
-} from 'lucide-react';
+import { Banknote, Gamepad2, LayoutGrid, UserCog } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -38,12 +28,10 @@ const mainNavItems: NavItem[] = [
             {
                 title: 'Registered Users',
                 href: '/users',
-                icon: UserRound,
             },
             {
                 title: 'Banned Users',
                 href: '/users/banned',
-                icon: UserRoundX,
             },
         ],
     },

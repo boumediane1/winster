@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\AppUser;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,9 +17,9 @@ class WithdrawalFactory extends Factory
     public function definition(): array
     {
         return [
-            'payment_method' => 'paypal',
+            'payment_method' => 'Paypal',
             'coins' => $this->faker->numberBetween(0, 1000),
-            'status' => 'pending'
+            'status' => $this->faker->randomElement(['pending', 'completed', 'rejected'])
         ];
     }
 }

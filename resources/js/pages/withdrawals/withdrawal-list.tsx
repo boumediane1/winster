@@ -2,22 +2,24 @@ import AppLayout from '@/layouts/app/app-sidebar-layout';
 import Heading from '@/components/heading';
 import { DataTable } from '@/components/data-table';
 import { BreadcrumbItem, Page } from '@/types';
-import {
-    ColumnFiltersState,
-    getCoreRowModel,
-    useReactTable,
-} from '@tanstack/react-table';
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import * as React from 'react';
 import { DataTablePagination } from '@/components/data-table-pagination';
-import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import { AppUser } from '../registered-users/columns';
 import { columns } from '@/pages/withdrawals/columns';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Registered Users',
+        title: 'Withdrawals',
         href: '/',
     },
 ];
@@ -33,18 +35,14 @@ export interface Withdrawal {
 
 const WithdrawalList = () => {
     const { withdrawals } = usePage<{ withdrawals: Page<Withdrawal> }>().props;
-    console.log(withdrawals.data);
 
     const [pagination, setPagination] = useState({
         pageIndex: withdrawals.current_page - 1,
         pageSize: withdrawals.per_page,
     });
 
-    const [columnFilters, setColumnFilters] =
-        React.useState<ColumnFiltersState>([]);
-
     const params = new URLSearchParams(window.location.search);
-    const name = params.get('name') ?? '';
+    const status = params.get('status') ?? '';
 
     const table = useReactTable({
         data: withdrawals.data,
@@ -52,21 +50,6 @@ const WithdrawalList = () => {
         getCoreRowModel: getCoreRowModel(),
         manualPagination: true,
         rowCount: withdrawals.total,
-        onColumnFiltersChange: (updater) => {
-            if (typeof updater !== 'function') return;
-
-            const newColumnFilters = updater(columnFilters);
-            setColumnFilters(newColumnFilters);
-
-            const name =
-                newColumnFilters.length > 0 ? newColumnFilters[0].value : '';
-
-            router.visit(route('withdrawals.index', { name }), {
-                preserveState: true,
-                preserveScroll: true,
-                only: ['page'],
-            });
-        },
         onPaginationChange: (updater) => {
             if (typeof updater !== 'function') return;
 
@@ -74,44 +57,73 @@ const WithdrawalList = () => {
             setPagination(newPagination);
 
             router.get(
-                route('users.index', {
+                route('withdrawals.index', {
                     page: newPagination.pageIndex + 1,
-                    name,
+                    status,
                 }),
                 {},
                 {
                     preserveState: true,
                     preserveScroll: true,
-                    only: ['page'],
+                    only: ['withdrawals'],
                 },
             );
         },
         state: {
-            columnFilters,
             pagination,
+            columnVisibility: {
+                select: status === 'pending',
+            },
         },
     });
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <div className="px-6 py-6 md:px-8">
-                <Heading title="Registered Users" />
+                <Heading title="Withdrawals" />
 
-                <div className="flex items-center pb-4">
-                    <Input
-                        placeholder="Filter names..."
+                <div className="mb-4">
+                    <Select
+                        defaultValue="pending"
                         value={
-                            (table
-                                .getColumn('name')
-                                ?.getFilterValue() as string) ?? name
+                            table.getColumn('status').getFilterValue() as string
                         }
-                        onChange={(event) =>
-                            table
-                                .getColumn('name')
-                                ?.setFilterValue(event.target.value)
-                        }
-                        className="max-w-sm"
-                    />
+                        onValueChange={(status) => {
+                            router.visit(
+                                route('withdrawals.index', { status }),
+                                {
+                                    preserveState: true,
+                                    preserveScroll: true,
+                                    only: ['withdrawals'],
+                                },
+                            );
+                        }}
+                    >
+                        <SelectTrigger className="h-11 w-[180px] cursor-pointer">
+                            <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                            <SelectItem
+                                className="cursor-pointer"
+                                value="pending"
+                            >
+                                Pending
+                            </SelectItem>
+                            <SelectItem
+                                className="cursor-pointer"
+                                value="completed"
+                            >
+                                Completed
+                            </SelectItem>
+                            <SelectItem
+                                className="cursor-pointer"
+                                value="rejected"
+                            >
+                                Rejected
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 <DataTable table={table} />
