@@ -23,6 +23,7 @@ export const columns: ColumnDef<Withdrawal>[] = [
         ),
         cell: ({ row }) => (
             <Checkbox
+                className="cursor-pointer"
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
                 aria-label="Select row"
@@ -62,12 +63,18 @@ export const columns: ColumnDef<Withdrawal>[] = [
         },
     },
     {
-        accessorKey: 'created_at',
+        accessorKey: 'updated_at',
         header: 'Date',
         cell: ({ row }) => {
-            return new Date(row.getValue('created_at')).toLocaleString(
+            return new Date(row.getValue('updated_at')).toLocaleString(
                 'default',
-                { day: '2-digit', month: 'long', year: 'numeric' },
+                {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: 'numeric',
+                },
             );
         },
     },

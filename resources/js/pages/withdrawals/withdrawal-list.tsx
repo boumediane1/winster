@@ -1,4 +1,3 @@
-import AppLayout from '@/layouts/app/app-sidebar-layout';
 import Heading from '@/components/heading';
 import { DataTable } from '@/components/data-table';
 import { BreadcrumbItem, Page } from '@/types';
@@ -16,6 +15,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Check, X } from 'lucide-react';
+import AppLayout from '@/layouts/app-layout';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -30,11 +32,12 @@ export interface Withdrawal {
     payment_method: string;
     coins: string;
     status: string;
-    created_at: string;
+    updated_at: string;
 }
 
 const WithdrawalList = () => {
     const { withdrawals } = usePage<{ withdrawals: Page<Withdrawal> }>().props;
+    console.log(withdrawals.data);
 
     const [pagination, setPagination] = useState({
         pageIndex: withdrawals.current_page - 1,
@@ -42,7 +45,7 @@ const WithdrawalList = () => {
     });
 
     const params = new URLSearchParams(window.location.search);
-    const status = params.get('status') ?? '';
+    const status = params.get('status') ?? 'pending';
 
     const table = useReactTable({
         data: withdrawals.data,
@@ -77,53 +80,89 @@ const WithdrawalList = () => {
         },
     });
 
+    const handleStatusChange = (status: Withdrawal['status']) => {
+        router.visit(route('withdrawals.index', { status }), {
+            preserveState: true,
+            preserveScroll: true,
+            only: ['withdrawals'],
+        });
+    };
+
+    const handleAction = (action: 'approve' | 'reject') => {
+        router.patch(
+            route('withdrawals.action', { action }),
+            {
+                ids: selected,
+            },
+            {
+                preserveState: false,
+                preserveScroll: false,
+            },
+        );
+    };
+
+    const selected = table
+        .getSelectedRowModel()
+        .rows.map((row) => row.original.id);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <div className="px-6 py-6 md:px-8">
                 <Heading title="Withdrawals" />
 
-                <div className="mb-4">
-                    <Select
-                        defaultValue="pending"
-                        value={
-                            table.getColumn('status').getFilterValue() as string
-                        }
-                        onValueChange={(status) => {
-                            router.visit(
-                                route('withdrawals.index', { status }),
-                                {
-                                    preserveState: true,
-                                    preserveScroll: true,
-                                    only: ['withdrawals'],
-                                },
-                            );
-                        }}
-                    >
-                        <SelectTrigger className="h-11 w-[180px] cursor-pointer">
-                            <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
+                <div className="mb-4 flex justify-between">
+                    <div className="flex gap-x-2">
+                        <Button
+                            onClick={() => handleAction('approve')}
+                            disabled={selected.length === 0}
+                            size="xl"
+                            variant="outline"
+                            className="cursor-pointer"
+                        >
+                            <Check />
+                            <span className="hidden sm:inline">
+                                Approve selected
+                            </span>
+                        </Button>
+                        <Button
+                            onClick={() => handleAction('reject')}
+                            disabled={selected.length === 0}
+                            size="xl"
+                            variant="outline"
+                            className="cursor-pointer"
+                        >
+                            <X />
+                            <span className="hidden sm:inline">
+                                Reject selected
+                            </span>
+                        </Button>
+                    </div>
 
-                        <SelectContent>
-                            <SelectItem
-                                className="cursor-pointer"
-                                value="pending"
-                            >
-                                Pending
-                            </SelectItem>
-                            <SelectItem
-                                className="cursor-pointer"
-                                value="completed"
-                            >
-                                Completed
-                            </SelectItem>
-                            <SelectItem
-                                className="cursor-pointer"
-                                value="rejected"
-                            >
-                                Rejected
-                            </SelectItem>
-                        </SelectContent>
-                    </Select>
+                    <div className="flex items-center gap-x-2">
+                        <span className="text-sm text-gray-500">Status</span>
+
+                        <Select
+                            defaultValue={status}
+                            onValueChange={handleStatusChange}
+                        >
+                            <SelectTrigger className="h-11 w-[180px] cursor-pointer">
+                                <SelectValue placeholder="Select status" />
+                            </SelectTrigger>
+
+                            <SelectContent>
+                                {['Pending', 'Completed', 'Rejected'].map(
+                                    (status) => (
+                                        <SelectItem
+                                            className="cursor-pointer"
+                                            value={status.toLowerCase()}
+                                        >
+                                            {status}
+                                        </SelectItem>
+                                    ),
+                                )}
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
 
                 <DataTable table={table} />

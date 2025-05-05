@@ -16,7 +16,7 @@ class WithdrawalSeeder extends Seeder
         $users = AppUser::all();
 
         foreach ($users as $user) {
-            Withdrawal::factory()->count(2)->create([
+            Withdrawal::factory()->count(3)->create([
                 'user_id' => $user->uuid
             ]);
         }

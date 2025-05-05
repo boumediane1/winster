@@ -15,6 +15,7 @@ class WithdrawalController {
         $withdrawals = Withdrawal::query()
             ->where('status', $status)
             ->with('appUser.user')
+            ->orderBy('updated_at', 'desc')
             ->paginate(7);
 
         $withdrawals = $withdrawals->through(fn ($withdrawal) => [
@@ -25,5 +26,15 @@ class WithdrawalController {
         return Inertia::render('withdrawals/withdrawal-list', [
             'withdrawals' => $withdrawals
         ]);
+    }
+
+    public function action(Request $request) {
+        $action = $request->route('action');
+        $status = $action === 'approve' ? 'completed' : 'rejected';
+        Withdrawal::query()
+            ->whereIn('id', $request->ids)
+            ->update(['status' => $status]);
+
+        return to_route('withdrawals.index');
     }
 }

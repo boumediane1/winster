@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignUuid('user_id')->references('uuid')->on('app_users');
             $table->integer('coins');
             $table->enum('status', ['pending', 'completed', 'rejected']);
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps();
         });
     }
 
