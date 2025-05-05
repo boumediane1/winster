@@ -18,6 +18,27 @@ import {
 import { Button } from '@/components/ui/button';
 import { Check, X } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -64,12 +85,6 @@ const WithdrawalList = () => {
                     page: newPagination.pageIndex + 1,
                     status,
                 }),
-                {},
-                {
-                    preserveState: true,
-                    preserveScroll: true,
-                    only: ['withdrawals'],
-                },
             );
         },
         state: {
@@ -112,30 +127,82 @@ const WithdrawalList = () => {
 
                 <div className="mb-4 flex justify-between">
                     <div className="flex gap-x-2">
-                        <Button
-                            onClick={() => handleAction('approve')}
-                            disabled={selected.length === 0}
-                            size="xl"
-                            variant="outline"
-                            className="cursor-pointer"
-                        >
-                            <Check />
-                            <span className="hidden sm:inline">
-                                Approve selected
-                            </span>
-                        </Button>
-                        <Button
-                            onClick={() => handleAction('reject')}
-                            disabled={selected.length === 0}
-                            size="xl"
-                            variant="outline"
-                            className="cursor-pointer"
-                        >
-                            <X />
-                            <span className="hidden sm:inline">
-                                Reject selected
-                            </span>
-                        </Button>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button
+                                    disabled={selected.length === 0}
+                                    size="xl"
+                                    variant="outline"
+                                    className="cursor-pointer"
+                                >
+                                    <Check />
+                                    <span className="hidden sm:inline">
+                                        Approve selected
+                                    </span>
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>
+                                        Are you sure?
+                                    </AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action cannot be undone and will
+                                        finalize the payout to the selected
+                                        user(s).
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel className="cursor-pointer">
+                                        Cancel
+                                    </AlertDialogCancel>
+                                    <AlertDialogAction
+                                        className="cursor-pointer"
+                                        onClick={() => handleAction('approve')}
+                                    >
+                                        Approve
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button
+                                    disabled={selected.length === 0}
+                                    size="xl"
+                                    variant="outline"
+                                    className="cursor-pointer"
+                                >
+                                    <X />
+                                    <span className="hidden sm:inline">
+                                        Reject selected
+                                    </span>
+                                </Button>
+                            </DialogTrigger>
+
+                            <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                    <DialogTitle>Reject Withdrawal</DialogTitle>
+                                    <DialogDescription>
+                                        Provide a reason for rejecting this
+                                        request.
+                                    </DialogDescription>
+                                </DialogHeader>
+
+                                <Textarea />
+
+                                <DialogFooter>
+                                    <Button
+                                        onClick={() => handleAction('reject')}
+                                        type="submit"
+                                        className="cursor-pointer"
+                                    >
+                                        Reject
+                                    </Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
                     </div>
 
                     <div className="flex items-center gap-x-2">
