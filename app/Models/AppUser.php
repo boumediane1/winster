@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class AppUser extends Model
 {
-//    protected $table = 'app_users';
     use HasFactory, HasUuids;
     protected $primaryKey = 'uuid';
     protected $fillable = ['device_id', 'coin_amount', 'country_code'];
@@ -22,5 +21,9 @@ class AppUser extends Model
 
     public function transactions(): HasMany {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function withdrawals(): HasMany {
+        return $this->hasMany(Withdrawal::class, 'user_id');
     }
 }

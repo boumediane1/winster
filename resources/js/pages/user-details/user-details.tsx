@@ -15,6 +15,8 @@ import * as React from 'react';
 import { DataTablePagination } from '@/components/data-table-pagination';
 import UserSummaryCard from '@/pages/user-details/user-summary-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { usePage } from '@inertiajs/react';
+import { Withdrawal } from '../withdrawals/withdrawal-list';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -24,19 +26,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const UserDetails = () => {
-    const [columnFilters, setColumnFilters] =
-        React.useState<ColumnFiltersState>([]);
+    const { withdrawals } = usePage<{ withdrawals: Withdrawal[] }>().props;
+    console.log(withdrawals);
 
     const table = useReactTable({
-        data: payouts,
+        data: withdrawals,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
-        onColumnFiltersChange: setColumnFilters,
-        getFilteredRowModel: getFilteredRowModel(),
-        state: {
-            columnFilters,
-        },
         initialState: {
             pagination: {
                 pageSize: 7,
@@ -90,126 +87,3 @@ const UserDetails = () => {
 };
 
 export default UserDetails;
-
-const payouts: Payout[] = [
-    {
-        method: 'Paypal',
-        coinAmount: '2500',
-        status: 'completed',
-        date: '2025-04-10T09:15:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '3200',
-        status: 'pending',
-        date: '2025-04-20T13:42:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '4100',
-        status: 'rejected',
-        date: '2025-03-30T17:05:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '1000',
-        status: 'completed',
-        date: '2025-04-27T11:22:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '1800',
-        status: 'completed',
-        date: '2025-04-01T10:00:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '2900',
-        status: 'pending',
-        date: '2025-04-02T14:30:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '3500',
-        status: 'completed',
-        date: '2025-03-25T08:45:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '4000',
-        status: 'rejected',
-        date: '2025-03-28T16:10:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '1200',
-        status: 'completed',
-        date: '2025-04-15T09:55:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '2700',
-        status: 'pending',
-        date: '2025-04-18T12:40:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '3300',
-        status: 'completed',
-        date: '2025-04-19T13:00:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '1500',
-        status: 'rejected',
-        date: '2025-04-03T11:35:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '3700',
-        status: 'completed',
-        date: '2025-04-05T15:15:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '2000',
-        status: 'pending',
-        date: '2025-04-07T10:10:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '4500',
-        status: 'rejected',
-        date: '2025-03-22T09:20:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '500',
-        status: 'completed',
-        date: '2025-04-08T08:00:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '3100',
-        status: 'pending',
-        date: '2025-04-09T13:50:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '2800',
-        status: 'rejected',
-        date: '2025-04-11T17:25:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '3400',
-        status: 'completed',
-        date: '2025-04-13T14:30:00Z',
-    },
-    {
-        method: 'Paypal',
-        coinAmount: '3900',
-        status: 'pending',
-        date: '2025-04-26T10:20:00Z',
-    },
-];

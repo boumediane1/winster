@@ -65,17 +65,5 @@ export const columns: ColumnDef<Withdrawal>[] = [
     {
         accessorKey: 'updated_at',
         header: 'Date',
-        cell: ({ row }) => {
-            return new Date(row.getValue('updated_at')).toLocaleString(
-                'default',
-                {
-                    day: '2-digit',
-                    month: 'long',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: 'numeric',
-                },
-            );
-        },
     },
 ];

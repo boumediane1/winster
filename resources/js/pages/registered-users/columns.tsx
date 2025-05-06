@@ -10,6 +10,7 @@ export interface AppUser {
     coin_amount: number;
     banned: boolean;
     country_code?: string;
+    created_at: string;
     user: User;
 }
 
@@ -59,13 +60,14 @@ export const columns: ColumnDef<AppUser>[] = [
         },
     },
     {
-        accessorKey: 'createdAt',
+        accessorKey: 'created_at',
         header: 'Member since',
         cell: ({ row }) => {
-            return new Date(row.getValue('createdAt')).toLocaleString(
-                'default',
-                { day: '2-digit', month: 'long', year: 'numeric' },
-            );
+            return new Date(row.original.created_at).toLocaleString('default', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+            });
         },
     },
     {
@@ -81,12 +83,12 @@ export const columns: ColumnDef<AppUser>[] = [
     },
     {
         id: 'actions',
-        cell: ({}) => {
+        cell: ({ row }) => {
             return (
                 <Button variant="link" className="">
                     <Link
-                        href={route('users.edit', {
-                            user: '019682b4-0481-7339-94b0-635011a0876b',
+                        href={route('users.show', {
+                            user: row.original.user.uuid,
                         })}
                     >
                         <Eye className="size-5" />

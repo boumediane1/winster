@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AppUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,10 +18,15 @@ class AppUserController extends Controller
         return Inertia::render('registered-users/users', $users);
     }
 
-    public function edit()
+    public function show(AppUser $user)
     {
+        $withdrawals = $user->withdrawals()->get()->map(fn($withdrawal) => [
+            ...$withdrawal->toArray(),
+            'updated_at' => $withdrawal->updated_at->diffForHumans()
+        ]);
+
         return Inertia::render('user-details/user-details', [
-            'user' => null
+            'withdrawals' => $withdrawals
         ]);
     }
 

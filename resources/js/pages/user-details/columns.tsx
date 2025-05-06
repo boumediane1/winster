@@ -1,5 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
+import { Withdrawal } from '@/pages/withdrawals/withdrawal-list';
 
 export interface Payout {
     method: 'Paypal';
@@ -14,31 +15,20 @@ const badgeColor = {
     rejected: 'bg-red-50 text-red-700 ring-red-600/10',
 };
 
-export const columns: ColumnDef<Payout>[] = [
+export const columns: ColumnDef<Withdrawal>[] = [
     {
-        accessorKey: 'date',
-        header: 'Date',
-        cell: ({ row }) => {
-            return new Date(row.getValue('date')).toLocaleString('default', {
-                day: '2-digit',
-                month: 'long',
-                year: 'numeric',
-            });
-        },
-    },
-    {
-        accessorKey: 'method',
+        accessorKey: 'payment_method',
         header: 'Payment method',
     },
     {
-        accessorKey: 'coinAmount',
+        accessorKey: 'coins',
         header: 'Coins',
     },
     {
         accessorKey: 'status',
         header: 'Status',
         cell: ({ row }) => {
-            const status: string = row.getValue('status');
+            const status = row.original.status;
 
             return (
                 <span
@@ -48,5 +38,9 @@ export const columns: ColumnDef<Payout>[] = [
                 </span>
             );
         },
+    },
+    {
+        accessorKey: 'updated_at',
+        header: 'Date',
     },
 ];

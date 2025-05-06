@@ -220,6 +220,7 @@ const WithdrawalList = () => {
                                 {['Pending', 'Completed', 'Rejected'].map(
                                     (status) => (
                                         <SelectItem
+                                            key={status}
                                             className="cursor-pointer"
                                             value={status.toLowerCase()}
                                         >
