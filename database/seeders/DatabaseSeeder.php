@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Database\Factories\WithdrawalFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -17,8 +16,8 @@ class DatabaseSeeder extends Seeder
         DB::unprepared(file_get_contents($path));
 
         $this->call([
-            AppUserSeeder::class,
             SettingSeeder::class,
+            AppUserSeeder::class,
             WithdrawalSeeder::class,
             OfferwallSeeder::class,
             PayoutSeeder::class,

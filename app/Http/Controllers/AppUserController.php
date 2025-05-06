@@ -22,8 +22,8 @@ class AppUserController extends Controller
     {
         return Inertia::render('user-details/user-details', [
             'user' => $user,
-            'withdrawals' => $user->withdrawals()->get(),
-            'transactions' => $user->transactions()->get(),
+            'withdrawals' => $user->withdrawals()->latest('updated_at')->get(),
+            'transactions' => $user->transactions()->latest()->get(),
         ]);
     }
 
