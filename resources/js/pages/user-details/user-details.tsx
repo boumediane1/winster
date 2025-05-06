@@ -17,6 +17,13 @@ import UserSummaryCard from '@/pages/user-details/user-summary-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { usePage } from '@inertiajs/react';
 import { Withdrawal } from '../withdrawals/withdrawal-list';
+import { AppUser } from '@/pages/registered-users/columns';
+
+export interface Transaction {
+    source: string;
+    coin_amount: number;
+    created_at: string;
+}
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -26,12 +33,27 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const UserDetails = () => {
-    const { withdrawals } = usePage<{ withdrawals: Withdrawal[] }>().props;
-    console.log(withdrawals);
+    const { withdrawals, transactions, user } = usePage<{
+        withdrawals: Withdrawal[];
+        transactions: Transaction[];
+        user: AppUser;
+    }>().props;
 
-    const table = useReactTable({
+    const withdrawalsTable = useReactTable({
         data: withdrawals,
-        columns,
+        columns: columns.withdrawals,
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        initialState: {
+            pagination: {
+                pageSize: 7,
+            },
+        },
+    });
+
+    const transactionsTable = useReactTable({
+        data: transactions,
+        columns: columns.transactions,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         initialState: {
@@ -66,14 +88,24 @@ const UserDetails = () => {
                             </TabsList>
 
                             <TabsContent value="withdrawals">
-                                <DataTable table={table} />
+                                <DataTable table={withdrawalsTable} />
 
                                 <div className="flex items-center justify-end space-x-2 py-4">
-                                    <DataTablePagination table={table} />
+                                    <DataTablePagination
+                                        table={withdrawalsTable}
+                                    />
                                 </div>
                             </TabsContent>
 
-                            <TabsContent value="activity">activity</TabsContent>
+                            <TabsContent value="activity">
+                                <DataTable table={transactionsTable} />
+
+                                <div className="flex items-center justify-end space-x-2 py-4">
+                                    <DataTablePagination
+                                        table={transactionsTable}
+                                    />
+                                </div>
+                            </TabsContent>
                         </Tabs>
                     </div>
 

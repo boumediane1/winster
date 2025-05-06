@@ -58,7 +58,6 @@ export interface Withdrawal {
 
 const WithdrawalList = () => {
     const { withdrawals } = usePage<{ withdrawals: Page<Withdrawal> }>().props;
-    console.log(withdrawals.data);
 
     const [pagination, setPagination] = useState({
         pageIndex: withdrawals.current_page - 1,

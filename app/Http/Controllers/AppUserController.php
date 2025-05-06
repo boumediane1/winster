@@ -21,7 +21,9 @@ class AppUserController extends Controller
     public function show(AppUser $user)
     {
         return Inertia::render('user-details/user-details', [
-            'withdrawals' => $user->withdrawals()->get()
+            'user' => $user,
+            'withdrawals' => $user->withdrawals()->get(),
+            'transactions' => $user->transactions()->get(),
         ]);
     }
 
