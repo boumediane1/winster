@@ -21,7 +21,6 @@ class WithdrawalController {
         $withdrawals = $withdrawals->through(fn ($withdrawal) => [
             ...$withdrawal->except('user_id'),
             'app_user' => $withdrawal->appUser,
-            'updated_at' => $withdrawal->updated_at->diffForHumans()
         ]);
 
         return Inertia::render('withdrawals/withdrawal-list', [
