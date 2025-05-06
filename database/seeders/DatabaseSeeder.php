@@ -19,8 +19,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AppUserSeeder::class,
             SettingSeeder::class,
+            WithdrawalSeeder::class,
             OfferwallSeeder::class,
-            WithdrawalSeeder::class
+            PayoutSeeder::class,
+            TransactionSeeder::class
         ]);
     }
 }
