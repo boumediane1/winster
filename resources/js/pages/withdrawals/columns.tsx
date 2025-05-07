@@ -2,6 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
 import { Withdrawal } from '@/pages/withdrawals/withdrawal-list';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Link } from '@inertiajs/react';
 
 const badgeColor = {
     pending: 'bg-yellow-50 text-yellow-800 ring-yellow-600/20',
@@ -38,6 +39,18 @@ export const columns: ColumnDef<Withdrawal>[] = [
             return row.app_user.user.name;
         },
         header: 'Name',
+        cell: ({ row }) => {
+            const user = row.original.app_user.user;
+
+            return (
+                <Link
+                    href={route('users.show', { user: user.uuid })}
+                    className="text-gray-900 hover:underline"
+                >
+                    {user.name}
+                </Link>
+            );
+        },
     },
     {
         accessorKey: 'payment_method',

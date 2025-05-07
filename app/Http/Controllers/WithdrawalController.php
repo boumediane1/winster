@@ -7,7 +7,8 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 
-class WithdrawalController {
+class WithdrawalController
+{
     public function index(Request $request): Response
     {
         $status = $request->query('status') ?? 'pending';
@@ -18,7 +19,7 @@ class WithdrawalController {
             ->orderBy('updated_at', 'desc')
             ->paginate(7);
 
-        $withdrawals = $withdrawals->through(fn ($withdrawal) => [
+        $withdrawals = $withdrawals->through(fn($withdrawal) => [
             ...$withdrawal->except('user_id'),
             'app_user' => $withdrawal->appUser,
         ]);
@@ -28,12 +29,42 @@ class WithdrawalController {
         ]);
     }
 
-    public function action(Request $request) {
-        $action = $request->route('action');
-        $status = $action === 'approve' ? 'completed' : 'rejected';
+    public function reject(Request $request)
+    {
+        Withdrawal::query()
+            ->whereIn('id', $request['ids'])
+            ->update(['status' => 'rejected']);
+
+        $withdrawals = Withdrawal::query()
+            ->whereIn('id', $request['ids'])
+            ->with('appUser')
+            ->get();
+
+        if ($request['takeAmount']) {
+            foreach ($withdrawals as $withdrawal) {
+                $user = $withdrawal->appUser;
+                $user->coin_amount -= $withdrawal->coins;
+                $user->save();
+            }
+        }
+    }
+
+    public function approve(Request $request)
+    {
         Withdrawal::query()
             ->whereIn('id', $request->ids)
-            ->update(['status' => $status]);
+            ->update(['status' => 'completed']);
+
+        $withdrawals = Withdrawal::query()
+            ->whereIn('id', $request['ids'])
+            ->with('appUser')
+            ->get();
+
+        foreach ($withdrawals as $withdrawal) {
+            $user = $withdrawal->appUser;
+            $user->coin_amount -= $withdrawal->coins;
+            $user->save();
+        }
 
         return to_route('withdrawals.index');
     }

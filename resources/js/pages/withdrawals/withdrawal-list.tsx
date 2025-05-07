@@ -4,8 +4,8 @@ import { BreadcrumbItem, Page } from '@/types';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import * as React from 'react';
 import { DataTablePagination } from '@/components/data-table-pagination';
-import { useState } from 'react';
-import { router, usePage } from '@inertiajs/react';
+import { FormEvent, useState } from 'react';
+import { router, useForm, usePage } from '@inertiajs/react';
 import { AppUser } from '../registered-users/columns';
 import { columns } from '@/pages/withdrawals/columns';
 import {
@@ -15,30 +15,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { Check, X } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from '@/components/ui/dialog';
-import { Textarea } from '@/components/ui/textarea';
+import RejectDialog from '@/pages/withdrawals/reject-dialog';
+import ApproveDialog from '@/pages/withdrawals/approve-dialog';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -94,6 +73,40 @@ const WithdrawalList = () => {
         },
     });
 
+    const form = useForm({
+        reason: '',
+        takeAmount: false,
+    });
+
+    const reject = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        router.patch(
+            route('withdrawals.reject', { reject: 'reject' }),
+            {
+                ids: selected,
+                reason: form.data.reason,
+                takeAmount: form.data.takeAmount,
+            },
+            {
+                preserveState: false,
+                preserveScroll: false,
+            },
+        );
+    };
+
+    const approve = () => {
+        router.patch(
+            route('withdrawals.approve', { approve: 'approve' }),
+            {
+                ids: selected,
+            },
+            {
+                preserveState: false,
+                preserveScroll: false,
+            },
+        );
+    };
+
     const handleStatusChange = (status: Withdrawal['status']) => {
         router.visit(route('withdrawals.index', { status }), {
             preserveState: true,
@@ -126,82 +139,16 @@ const WithdrawalList = () => {
 
                 <div className="mb-4 flex justify-between">
                     <div className="flex gap-x-2">
-                        <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                                <Button
-                                    disabled={selected.length === 0}
-                                    size="xl"
-                                    variant="outline"
-                                    className="cursor-pointer"
-                                >
-                                    <Check />
-                                    <span className="hidden sm:inline">
-                                        Approve selected
-                                    </span>
-                                </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>
-                                        Are you sure?
-                                    </AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        This action cannot be undone and will
-                                        finalize the payout to the selected
-                                        user(s).
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel className="cursor-pointer">
-                                        Cancel
-                                    </AlertDialogCancel>
-                                    <AlertDialogAction
-                                        className="cursor-pointer"
-                                        onClick={() => handleAction('approve')}
-                                    >
-                                        Approve
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
+                        <ApproveDialog
+                            enabled={selected.length > 0}
+                            approve={approve}
+                        />
 
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button
-                                    disabled={selected.length === 0}
-                                    size="xl"
-                                    variant="outline"
-                                    className="cursor-pointer"
-                                >
-                                    <X />
-                                    <span className="hidden sm:inline">
-                                        Reject selected
-                                    </span>
-                                </Button>
-                            </DialogTrigger>
-
-                            <DialogContent className="sm:max-w-[425px]">
-                                <DialogHeader>
-                                    <DialogTitle>Reject Withdrawal</DialogTitle>
-                                    <DialogDescription>
-                                        Provide a reason for rejecting this
-                                        request.
-                                    </DialogDescription>
-                                </DialogHeader>
-
-                                <Textarea />
-
-                                <DialogFooter>
-                                    <Button
-                                        onClick={() => handleAction('reject')}
-                                        type="submit"
-                                        className="cursor-pointer"
-                                    >
-                                        Reject
-                                    </Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
+                        <RejectDialog
+                            enabled={selected.length > 0}
+                            submit={reject}
+                            form={form}
+                        />
                     </div>
 
                     <div className="flex items-center gap-x-2">

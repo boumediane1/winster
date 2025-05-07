@@ -2,12 +2,10 @@ import AppLayout from '@/layouts/app/app-sidebar-layout';
 import { BreadcrumbItem } from '@/types';
 import Heading from '@/components/heading';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
-import { columns, Payout } from '@/pages/user-details/columns';
+import { columns } from '@/pages/user-details/columns';
 import { DataTable } from '@/components/data-table';
 import {
-    ColumnFiltersState,
     getCoreRowModel,
-    getFilteredRowModel,
     getPaginationRowModel,
     useReactTable,
 } from '@tanstack/react-table';

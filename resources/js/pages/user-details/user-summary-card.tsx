@@ -43,7 +43,6 @@ const UserSummaryCard = () => {
                     <DialogTrigger asChild>
                         <PencilSquareIcon className="size-6 cursor-pointer text-gray-900 hover:text-gray-500" />
                     </DialogTrigger>
-
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
                             <DialogTitle>Edit profile</DialogTitle>
