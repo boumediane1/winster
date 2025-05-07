@@ -2,7 +2,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
 import { Link } from '@inertiajs/react';
-import { Eye } from 'lucide-react';
 import { User } from '@/types';
 
 export interface AppUser {
@@ -85,13 +84,13 @@ export const columns: ColumnDef<AppUser>[] = [
         id: 'actions',
         cell: ({ row }) => {
             return (
-                <Button variant="link" className="">
+                <Button variant="outline">
                     <Link
                         href={route('users.show', {
                             user: row.original.user.uuid,
                         })}
                     >
-                        <Eye className="size-5" />
+                        View
                     </Link>
                 </Button>
             );
