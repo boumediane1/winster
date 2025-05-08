@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ban_logs', function (Blueprint $table) {
+        Schema::create('bans', function (Blueprint $table) {
             $table->id();
+            $table->foreignUuid('user_id')->references('uuid')->on('app_users');
+            $table->string('reason');
+            $table->timestamp('lifted_at')->nullable();
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ban_logs');
+        Schema::dropIfExists('bans');
     }
 };

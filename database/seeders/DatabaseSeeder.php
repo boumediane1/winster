@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             WithdrawalSeeder::class,
             OfferwallSeeder::class,
             PayoutSeeder::class,
-            TransactionSeeder::class
+            TransactionSeeder::class,
+            BanSeeder::class
         ]);
     }
 }

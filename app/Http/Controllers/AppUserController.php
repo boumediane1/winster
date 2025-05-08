@@ -29,6 +29,15 @@ class AppUserController extends Controller
 
     public function banned()
     {
-        return Inertia::render('banned-users/users');
+        $users = AppUser::query()
+            ->with('user')
+            ->with('latestBan')
+            ->whereHas('bans', function ($query) {
+                $query->whereNull('lifted_at');
+            })->get();
+
+        return Inertia::render('banned-users/users', [
+            'users' => $users
+        ]);
     }
 }

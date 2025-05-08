@@ -1,43 +1,18 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { Button } from '@/components/ui/button';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import {
-    Dialog,
-    DialogHeader,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogTrigger,
-    DialogTitle,
-} from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { AppUserWithLatestBan } from '@/pages/banned-users/users';
+import UpdateReasonDialog from '@/pages/banned-users/update-reason-dialog';
+import UnbanDialog from '@/pages/banned-users/unban-dialog';
 
-export interface User {
-    name: string;
-    email: string;
-    bannedAt: string;
-    reason: string;
-    countryCode: string;
-}
-
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<AppUserWithLatestBan>[] = [
     {
         accessorKey: 'name',
+        accessorFn: (row) => {
+            return row.user.name;
+        },
         header: 'Name',
         cell: ({ row }) => {
-            const code = row.original.countryCode.toLowerCase();
+            const code = (row.original.country_code ?? 'US').toLowerCase();
 
             return (
                 <div className="items-centerx flex gap-x-2">
@@ -46,16 +21,17 @@ export const columns: ColumnDef<User>[] = [
                         style={{ width: '1.25rem', height: '1.25rem' }}
                     />
 
-                    <span>{row.getValue('name')}</span>
+                    <span>{row.original.user.name}</span>
                 </div>
             );
         },
     },
     {
-        accessorKey: 'bannedAt',
+        accessorKey: 'banned_at',
+        accessorFn: (row) => row.latest_ban.created_at,
         header: 'Date',
         cell: ({ row }) => {
-            return new Date(row.getValue('bannedAt')).toLocaleString(
+            return new Date(row.original.latest_ban.created_at).toLocaleString(
                 'default',
                 { day: '2-digit', month: 'long', year: 'numeric' },
             );
@@ -63,6 +39,7 @@ export const columns: ColumnDef<User>[] = [
     },
     {
         accessorKey: 'reason',
+        accessorFn: (row) => row.latest_ban.reason,
         header: 'Reason',
     },
     {
@@ -70,61 +47,8 @@ export const columns: ColumnDef<User>[] = [
         cell: ({}) => {
             return (
                 <div className="space-x-2 text-right">
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button
-                                variant="outline"
-                                className="cursor-pointer"
-                            >
-                                Edit
-                            </Button>
-                        </DialogTrigger>
-
-                        <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                                <DialogTitle>Update reason</DialogTitle>
-                                <DialogDescription>
-                                    Enter the reason for banning this user.
-                                </DialogDescription>
-                            </DialogHeader>
-
-                            <Textarea />
-
-                            <DialogFooter>
-                                <Button
-                                    type="submit"
-                                    className="cursor-pointer"
-                                >
-                                    Save changes
-                                </Button>
-                            </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
-
-                    <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                            <Button className="cursor-pointer">Unban</Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                    Are you want to unban this user?
-                                </AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    Once a user is unbanned, they will
-                                    automatically be removed from this list.
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel className="cursor-pointer">
-                                    Cancel
-                                </AlertDialogCancel>
-                                <AlertDialogAction className="cursor-pointer">
-                                    Continue
-                                </AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
+                    <UpdateReasonDialog />
+                    <UnbanDialog />
                 </div>
             );
         },
