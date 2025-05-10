@@ -31,10 +31,8 @@ class AppUserController extends Controller
     }
 
     public function update(UpdateAppUserRequest $request, User $user) {
-        $user->update([
-            'name' => $request->input('name'),
-            'email' => $request->input('email')
-        ]);
+        $validated = array_filter($request->validated(), fn ($value) => !is_null($value));
+        $user->update($validated);
     }
 
     public function banned()

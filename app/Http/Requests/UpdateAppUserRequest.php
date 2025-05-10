@@ -25,6 +25,7 @@ class UpdateAppUserRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => ['required' , 'email' , Rule::unique('users', 'email')->ignore($this->route('user'))],
+            'password' => 'nullable|string|min:8'
         ];
     }
 }
