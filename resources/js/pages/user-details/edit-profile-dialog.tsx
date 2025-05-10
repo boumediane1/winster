@@ -15,14 +15,14 @@ import * as React from 'react';
 import { useForm } from '@inertiajs/react';
 import { AppUser } from '@/pages/registered-users/columns';
 import InputError from '@/components/input-error';
+import { LoaderCircle } from 'lucide-react';
 
 const EditProfileDialog = ({ user }: { user: AppUser }) => {
-    const { data, setData, put, errors, hasErrors } = useForm<{
+    const { data, setData, put, errors, processing } = useForm<{
         name: string;
         email: string;
         password: string;
     }>({ name: user.user.name, email: user.user.email, password: '' });
-    console.log(Object.keys(errors));
 
     const submit = () => {
         put(route('users.update', { user: user.user.uuid }), {
@@ -104,7 +104,11 @@ const EditProfileDialog = ({ user }: { user: AppUser }) => {
                         size="xl"
                         className="cursor-pointer"
                         onClick={submit}
+                        disabled={processing}
                     >
+                        {processing && (
+                            <LoaderCircle className="h-4 w-4 animate-spin" />
+                        )}
                         Save changes
                     </Button>
                 </DialogFooter>

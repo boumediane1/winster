@@ -11,11 +11,14 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { AppUser } from '@/pages/registered-users/columns';
-import { router } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
+import { LoaderCircle } from 'lucide-react';
 
 const UnbanDialog = ({ ban }: { ban: AppUser['ban'] }) => {
+    const { processing, delete: destroy } = useForm<{ ban: number }>();
+
     const submit = () => {
-        router.delete(route('bans.destroy', { ban: ban.id }));
+        destroy(route('bans.destroy', { ban: ban.id }));
     };
 
     return (
@@ -42,7 +45,11 @@ const UnbanDialog = ({ ban }: { ban: AppUser['ban'] }) => {
                     <AlertDialogAction
                         className="cursor-pointer"
                         onClick={submit}
+                        disabled={processing}
                     >
+                        {processing && (
+                            <LoaderCircle className="h-4 w-4 animate-spin" />
+                        )}
                         Continue
                     </AlertDialogAction>
                 </AlertDialogFooter>

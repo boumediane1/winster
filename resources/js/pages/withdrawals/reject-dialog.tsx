@@ -12,13 +12,13 @@ import {
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useForm } from '@inertiajs/react';
-import { X } from 'lucide-react';
+import { LoaderCircle, X } from 'lucide-react';
 import { Withdrawal } from '@/pages/withdrawals/withdrawal-list';
 import InputError from '@/components/input-error';
 import { useEffect } from 'react';
 
 const RejectDialog = ({ withdrawals }: { withdrawals: Withdrawal[] }) => {
-    const { data, setData, patch, errors } = useForm<{
+    const { data, setData, patch, errors, processing } = useForm<{
         ids: number[];
         reason: string;
         takeAmount: boolean;
@@ -87,7 +87,11 @@ const RejectDialog = ({ withdrawals }: { withdrawals: Withdrawal[] }) => {
                         type="submit"
                         className="cursor-pointer"
                         onClick={submit}
+                        disabled={processing}
                     >
+                        {processing && (
+                            <LoaderCircle className="h-4 w-4 animate-spin" />
+                        )}
                         Reject
                     </Button>
                 </DialogFooter>

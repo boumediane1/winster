@@ -10,22 +10,26 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { Check } from 'lucide-react';
+import { Check, LoaderCircle } from 'lucide-react';
 import { Withdrawal } from '@/pages/withdrawals/withdrawal-list';
-import { router } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
+import { useEffect } from 'react';
 
 const ApproveDialog = ({ withdrawals }: { withdrawals: Withdrawal[] }) => {
-    const submit = () => {
-        router.patch(
-            route('withdrawals.approve', { approve: 'approve' }),
-            {
-                ids: withdrawals.map((withdrawal) => withdrawal.id),
-            },
-            {
-                preserveState: false,
-                preserveScroll: false,
-            },
+    const { patch, processing, setData } = useForm<{ ids: number[] }>();
+
+    useEffect(() => {
+        setData(
+            'ids',
+            withdrawals.map((withdrawal) => withdrawal.id),
         );
+    }, [withdrawals]);
+
+    const submit = () => {
+        patch(route('withdrawals.approve', { approve: 'approve' }), {
+            preserveState: false,
+            preserveScroll: false,
+        });
     };
 
     return (
@@ -55,8 +59,12 @@ const ApproveDialog = ({ withdrawals }: { withdrawals: Withdrawal[] }) => {
                     </AlertDialogCancel>
                     <AlertDialogAction
                         className="cursor-pointer"
+                        disabled={processing}
                         onClick={submit}
                     >
+                        {processing && (
+                            <LoaderCircle className="h-4 w-4 animate-spin" />
+                        )}
                         Approve
                     </AlertDialogAction>
                 </AlertDialogFooter>

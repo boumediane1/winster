@@ -12,9 +12,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { useForm } from '@inertiajs/react';
 import { AppUser } from '@/pages/registered-users/columns';
 import InputError from '@/components/input-error';
+import { LoaderCircle } from 'lucide-react';
 
 const BanDialog = ({ user }: { user: AppUser }) => {
-    const { data, setData, post, errors } = useForm({
+    const { data, setData, post, errors, processing } = useForm({
         reason: '',
         user_id: user.user.uuid,
     });
@@ -59,7 +60,11 @@ const BanDialog = ({ user }: { user: AppUser }) => {
                         type="submit"
                         className="cursor-pointer"
                         onClick={submit}
+                        disabled={processing}
                     >
+                        {processing && (
+                            <LoaderCircle className="h-4 w-4 animate-spin" />
+                        )}
                         Save changes
                     </Button>
                 </DialogFooter>
