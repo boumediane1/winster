@@ -11,19 +11,28 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
+import { Withdrawal } from '@/pages/withdrawals/withdrawal-list';
+import { router } from '@inertiajs/react';
 
-const ApproveDialog = ({
-    enabled,
-    approve,
-}: {
-    enabled: boolean;
-    approve: () => void;
-}) => {
+const ApproveDialog = ({ withdrawals }: { withdrawals: Withdrawal[] }) => {
+    const submit = () => {
+        router.patch(
+            route('withdrawals.approve', { approve: 'approve' }),
+            {
+                ids: withdrawals.map((withdrawal) => withdrawal.id),
+            },
+            {
+                preserveState: false,
+                preserveScroll: false,
+            },
+        );
+    };
+
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <Button
-                    disabled={enabled === false}
+                    disabled={withdrawals.length === 0}
                     size="xl"
                     variant="outline"
                     className="cursor-pointer"
@@ -46,7 +55,7 @@ const ApproveDialog = ({
                     </AlertDialogCancel>
                     <AlertDialogAction
                         className="cursor-pointer"
-                        onClick={() => approve()}
+                        onClick={submit}
                     >
                         Approve
                     </AlertDialogAction>

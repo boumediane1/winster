@@ -11,24 +11,42 @@ import {
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { FormEvent } from 'react';
-import { InertiaFormProps } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import { X } from 'lucide-react';
+import { Withdrawal } from '@/pages/withdrawals/withdrawal-list';
+import InputError from '@/components/input-error';
+import { useEffect } from 'react';
 
-interface Props {
-    form: InertiaFormProps<{ reason: string; takeAmount: boolean }>;
-    enabled: boolean;
-    submit: (e: FormEvent<HTMLFormElement>) => void;
-}
+const RejectDialog = ({ withdrawals }: { withdrawals: Withdrawal[] }) => {
+    const { data, setData, patch, errors } = useForm<{
+        ids: number[];
+        reason: string;
+        takeAmount: boolean;
+    }>({
+        ids: [],
+        reason: '',
+        takeAmount: false,
+    });
 
-const RejectDialog = ({ form, enabled, submit }: Props) => {
-    const { setData } = form;
+    useEffect(() => {
+        setData(
+            'ids',
+            withdrawals.map((withdrawal) => withdrawal.id),
+        );
+    }, [withdrawals]);
+
+    const submit = () => {
+        console.log(data);
+        patch(route('withdrawals.reject', { reject: 'reject' }), {
+            preserveState: (page) => Object.keys(page.props.errors).length > 0,
+        });
+    };
 
     return (
         <Dialog>
             <DialogTrigger asChild>
                 <Button
-                    disabled={enabled === false}
+                    disabled={withdrawals.length === 0}
                     size="xl"
                     variant="outline"
                     className="cursor-pointer"
@@ -39,35 +57,40 @@ const RejectDialog = ({ form, enabled, submit }: Props) => {
             </DialogTrigger>
 
             <DialogContent className="sm:max-w-[425px]">
-                <form onSubmit={submit} className="space-y-4">
-                    <DialogHeader>
-                        <DialogTitle>Reject Withdrawal</DialogTitle>
-                        <DialogDescription>
-                            Coins will be returned unless 'Take amount' is
-                            selected. Optionally, provide a reason below.
-                        </DialogDescription>
-                    </DialogHeader>
+                <DialogHeader>
+                    <DialogTitle>Reject Withdrawal</DialogTitle>
+                    <DialogDescription>
+                        Coins will be returned unless 'Take amount' is selected.
+                        Optionally, provide a reason below.
+                    </DialogDescription>
+                </DialogHeader>
 
-                    <Textarea
-                        onChange={(e) => setData('reason', e.target.value)}
+                <Textarea
+                    id="reason"
+                    value={data.reason}
+                    onChange={(e) => setData('reason', e.target.value)}
+                />
+                <InputError message={errors.reason} />
+
+                <div className="flex items-center gap-x-2">
+                    <Checkbox
+                        id="take-amount"
+                        onCheckedChange={(checked) =>
+                            setData('takeAmount', checked === true)
+                        }
                     />
+                    <Label htmlFor="take-amount">Take amount</Label>
+                </div>
 
-                    <div className="flex items-center gap-x-2">
-                        <Checkbox
-                            id="take-amount"
-                            onCheckedChange={(checked) =>
-                                setData('takeAmount', Boolean(checked))
-                            }
-                        />
-                        <Label htmlFor="take-amount">Take amount</Label>
-                    </div>
-
-                    <DialogFooter>
-                        <Button type="submit" className="cursor-pointer">
-                            Reject
-                        </Button>
-                    </DialogFooter>
-                </form>
+                <DialogFooter>
+                    <Button
+                        type="submit"
+                        className="cursor-pointer"
+                        onClick={submit}
+                    >
+                        Reject
+                    </Button>
+                </DialogFooter>
             </DialogContent>
         </Dialog>
     );

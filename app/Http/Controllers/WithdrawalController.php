@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Withdrawal;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
@@ -31,12 +32,19 @@ class WithdrawalController
 
     public function reject(Request $request)
     {
+        $validated = $request->validate([
+            'ids' => 'required|array|min:1',
+            'ids.*' => ['integer', Rule::exists('withdrawals', 'id')],
+            'reason' => 'required|string',
+            'take_amount' => 'nullable|boolean'
+        ]);
+
         Withdrawal::query()
-            ->whereIn('id', $request['ids'])
+            ->whereIn('id', $validated['ids'])
             ->update(['status' => 'rejected']);
 
         $withdrawals = Withdrawal::query()
-            ->whereIn('id', $request['ids'])
+            ->whereIn('id', $validated['ids'])
             ->with('appUser')
             ->get();
 

@@ -4,9 +4,8 @@ import { BreadcrumbItem, Page } from '@/types';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import * as React from 'react';
 import { DataTablePagination } from '@/components/data-table-pagination';
-import { FormEvent, useState } from 'react';
-import { router, useForm, usePage } from '@inertiajs/react';
-import { AppUserWithLatestBan } from '../registered-users/columns';
+import { useState } from 'react';
+import { router, usePage } from '@inertiajs/react';
 import { columns } from '@/pages/withdrawals/columns';
 import {
     Select,
@@ -18,6 +17,7 @@ import {
 import AppLayout from '@/layouts/app-layout';
 import RejectDialog from '@/pages/withdrawals/reject-dialog';
 import ApproveDialog from '@/pages/withdrawals/approve-dialog';
+import { AppUser } from '@/pages/registered-users/columns';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -28,7 +28,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export interface Withdrawal {
     id: number;
-    app_user: AppUserWithLatestBan;
+    app_user: AppUser;
     payment_method: string;
     coins: string;
     status: string;
@@ -73,40 +73,6 @@ const WithdrawalList = () => {
         },
     });
 
-    const form = useForm({
-        reason: '',
-        takeAmount: false,
-    });
-
-    const reject = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        router.patch(
-            route('withdrawals.reject', { reject: 'reject' }),
-            {
-                ids: selected,
-                reason: form.data.reason,
-                takeAmount: form.data.takeAmount,
-            },
-            {
-                preserveState: false,
-                preserveScroll: false,
-            },
-        );
-    };
-
-    const approve = () => {
-        router.patch(
-            route('withdrawals.approve', { approve: 'approve' }),
-            {
-                ids: selected,
-            },
-            {
-                preserveState: false,
-                preserveScroll: false,
-            },
-        );
-    };
-
     const handleStatusChange = (status: Withdrawal['status']) => {
         router.visit(route('withdrawals.index', { status }), {
             preserveState: true,
@@ -115,22 +81,9 @@ const WithdrawalList = () => {
         });
     };
 
-    const handleAction = (action: 'approve' | 'reject') => {
-        router.patch(
-            route('withdrawals.action', { action }),
-            {
-                ids: selected,
-            },
-            {
-                preserveState: false,
-                preserveScroll: false,
-            },
-        );
-    };
-
     const selected = table
         .getSelectedRowModel()
-        .rows.map((row) => row.original.id);
+        .rows.map((row) => row.original);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -139,16 +92,8 @@ const WithdrawalList = () => {
 
                 <div className="mb-4 flex justify-between">
                     <div className="flex gap-x-2">
-                        <ApproveDialog
-                            enabled={selected.length > 0}
-                            approve={approve}
-                        />
-
-                        <RejectDialog
-                            enabled={selected.length > 0}
-                            submit={reject}
-                            form={form}
-                        />
+                        <ApproveDialog withdrawals={selected} />
+                        <RejectDialog withdrawals={selected} />
                     </div>
 
                     <div className="flex items-center gap-x-2">
