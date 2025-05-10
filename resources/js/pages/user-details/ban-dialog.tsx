@@ -9,17 +9,23 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { InertiaFormProps } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
+import { AppUser } from '@/pages/registered-users/columns';
+import InputError from '@/components/input-error';
 
-const BanDialog = ({
-    data,
-    setData,
-    ban,
-}: {
-    data: InertiaFormProps<{ reason: string }>['data'];
-    setData: InertiaFormProps<{ reason: string }>['setData'];
-    ban: () => void;
-}) => {
+const BanDialog = ({ user }: { user: AppUser }) => {
+    const { data, setData, post, errors } = useForm({
+        reason: '',
+        user_id: user.user.uuid,
+    });
+
+    const submit = () => {
+        post(route('bans.store'), {
+            preserveState: (page) => Object.keys(page.props.errors).length > 0,
+            preserveScroll: true,
+        });
+    };
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -46,11 +52,13 @@ const BanDialog = ({
                     }}
                 />
 
+                <InputError message={errors.reason} />
+
                 <DialogFooter>
                     <Button
                         type="submit"
                         className="cursor-pointer"
-                        onClick={ban}
+                        onClick={submit}
                     >
                         Save changes
                     </Button>

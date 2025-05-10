@@ -4,36 +4,10 @@ import * as React from 'react';
 import EditProfileDialog from '@/pages/user-details/edit-profile-dialog';
 import { formatDate } from '@/lib/utils';
 import BanDialog from '@/pages/user-details/ban-dialog';
-import { useForm } from '@inertiajs/react';
 import { AppUser } from '@/pages/registered-users/columns';
 import UnbanDialog from '@/pages/user-details/unban-dialog';
 
 const UserSummaryCard = ({ user }: { user: AppUser }) => {
-    const {
-        data,
-        setData,
-        post,
-        delete: destroy,
-    } = useForm({
-        reason: '',
-        user_id: user.user.uuid,
-    });
-
-    const ban = () => {
-        post(route('bans.store'), {
-            preserveState: false,
-            preserveScroll: true,
-        });
-        return;
-    };
-
-    const unban = () => {
-        destroy(route('bans.destroy', { ban: user.ban.id }), {
-            preserveState: false,
-            preserveScroll: true,
-        });
-    };
-
     return (
         <div className="bg-card rounded-lg border p-5">
             <div className="flex items-start justify-between">
@@ -115,9 +89,9 @@ const UserSummaryCard = ({ user }: { user: AppUser }) => {
                 </Button>
 
                 {user.ban === null ? (
-                    <BanDialog data={data} setData={setData} ban={ban} />
+                    <BanDialog user={user} />
                 ) : (
-                    <UnbanDialog unban={unban} />
+                    <UnbanDialog ban={user.ban} />
                 )}
             </div>
         </div>

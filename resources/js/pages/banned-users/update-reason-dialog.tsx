@@ -11,15 +11,16 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { AppUser } from '@/pages/registered-users/columns';
 import { useForm } from '@inertiajs/react';
+import InputError from '@/components/input-error';
 
 const UpdateReasonDialog = ({ ban }: { ban: AppUser['ban'] }) => {
-    const { data, setData, patch } = useForm<{ reason: string }>({
+    const { data, setData, patch, errors } = useForm<{ reason: string }>({
         reason: ban.reason,
     });
 
     const update = () => {
         patch(route('bans.update', { ban: ban.id }), {
-            preserveState: false,
+            preserveState: (page) => Object.keys(page.props.errors).length > 0,
             preserveScroll: true,
         });
     };
@@ -44,6 +45,8 @@ const UpdateReasonDialog = ({ ban }: { ban: AppUser['ban'] }) => {
                     value={data.reason}
                     onChange={(e) => setData('reason', e.target.value)}
                 />
+
+                <InputError message={errors.reason} />
 
                 <DialogFooter>
                     <Button

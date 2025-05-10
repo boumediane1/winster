@@ -10,9 +10,9 @@ class BanController extends Controller
 {
     public function store(Request $request)
     {
-        $ban = new Ban([
-            'reason' => $request->input('reason'),
-        ]);
+        $validated = $request->validate(['reason' => 'required']);
+
+        $ban = new Ban($validated);
 
         $user = AppUser::query()->find($request->input('user_id'));
 
@@ -26,8 +26,7 @@ class BanController extends Controller
     }
 
     public function update(Ban $ban, Request $request) {
-        $ban->update([
-            'reason' => $request->input('reason')
-        ]);
+        $validated = $request->validate(['reason' => 'required']);
+        $ban->update($validated);
     }
 }
