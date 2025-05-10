@@ -42,18 +42,17 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                                             className="cursor-pointer"
                                             tooltip={{ children: item.title }}
                                         >
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center gap-2">
-                                                    {item.icon && (
-                                                        <item.icon className="size-4" />
-                                                    )}
-                                                    <span>{item.title}</span>
-                                                </div>
+                                            <button>
+                                                {item.icon && (
+                                                    <item.icon className="size-4" />
+                                                )}
+                                                <span>{item.title}</span>
 
-                                                <ChevronRight className="size-4" />
-                                            </div>
+                                                <ChevronRight className="ml-auto size-4" />
+                                            </button>
                                         </SidebarMenuButton>
                                     </CollapsibleTrigger>
+
                                     <CollapsibleContent>
                                         <SidebarMenuSub>
                                             {item.children.map((child) => (
