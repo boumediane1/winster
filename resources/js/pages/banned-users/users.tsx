@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app/app-sidebar-layout';
 import Heading from '@/components/heading';
-import { BreadcrumbItem, Page } from '@/types';
+import { BreadcrumbItem } from '@/types';
 import { DataTable } from '@/components/data-table';
 import { columns } from '@/pages/banned-users/columns';
 import {
@@ -23,20 +23,11 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-interface Ban {
-    reason: string;
-    created_at: string;
-}
-
-export interface AppUserWithLatestBan extends AppUser {
-    latest_ban: Ban;
-}
-
 const Users = () => {
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
 
-    const { users } = usePage<{ users: AppUserWithLatestBan[] }>().props;
+    const { users } = usePage<{ users: AppUser[] }>().props;
 
     const table = useReactTable({
         data: users,

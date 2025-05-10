@@ -10,7 +10,9 @@ class Ban extends Model
 {
     use HasFactory;
 
-    public function user(): BelongsTo {
-        return $this->belongsTo(AppUser::class);
+    protected $fillable = ['reason'];
+
+    public function appUser(): BelongsTo {
+        return $this->belongsTo(AppUser::class, 'user_id');
     }
 }

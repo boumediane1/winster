@@ -1,10 +1,10 @@
 import { ColumnDef } from '@tanstack/react-table';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
-import { AppUserWithLatestBan } from '@/pages/banned-users/users';
 import UpdateReasonDialog from '@/pages/banned-users/update-reason-dialog';
 import UnbanDialog from '@/pages/banned-users/unban-dialog';
+import { AppUser } from '../registered-users/columns';
 
-export const columns: ColumnDef<AppUserWithLatestBan>[] = [
+export const columns: ColumnDef<AppUser>[] = [
     {
         accessorKey: 'name',
         accessorFn: (row) => {
@@ -28,27 +28,31 @@ export const columns: ColumnDef<AppUserWithLatestBan>[] = [
     },
     {
         accessorKey: 'banned_at',
-        accessorFn: (row) => row.latest_ban.created_at,
+        accessorFn: (row) => row.ban.created_at,
         header: 'Date',
         cell: ({ row }) => {
-            return new Date(row.original.latest_ban.created_at).toLocaleString(
+            return new Date(row.original.ban.created_at).toLocaleString(
                 'default',
-                { day: '2-digit', month: 'long', year: 'numeric' },
+                {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric',
+                },
             );
         },
     },
     {
         accessorKey: 'reason',
-        accessorFn: (row) => row.latest_ban.reason,
+        accessorFn: (row) => row.ban.reason,
         header: 'Reason',
     },
     {
         id: 'actions',
-        cell: ({}) => {
+        cell: ({ row }) => {
             return (
                 <div className="space-x-2 text-right">
-                    <UpdateReasonDialog />
-                    <UnbanDialog />
+                    <UpdateReasonDialog ban={row.original.ban} />
+                    <UnbanDialog user={row.original} />
                 </div>
             );
         },

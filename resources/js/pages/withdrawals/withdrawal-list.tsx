@@ -6,7 +6,7 @@ import * as React from 'react';
 import { DataTablePagination } from '@/components/data-table-pagination';
 import { FormEvent, useState } from 'react';
 import { router, useForm, usePage } from '@inertiajs/react';
-import { AppUser } from '../registered-users/columns';
+import { AppUserWithLatestBan } from '../registered-users/columns';
 import { columns } from '@/pages/withdrawals/columns';
 import {
     Select,
@@ -28,7 +28,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export interface Withdrawal {
     id: number;
-    app_user: AppUser;
+    app_user: AppUserWithLatestBan;
     payment_method: string;
     coins: string;
     status: string;

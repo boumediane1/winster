@@ -1,26 +1,45 @@
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from '@/components/ui/dialog';
-import { PencilSquareIcon } from '@heroicons/react/24/outline';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Calendar, Send, Smartphone, UserRound } from 'lucide-react';
 import * as React from 'react';
+import EditProfileDialog from '@/pages/user-details/edit-profile-dialog';
+import { formatDate } from '@/lib/utils';
+import BanDialog from '@/pages/user-details/ban-dialog';
+import { useForm } from '@inertiajs/react';
+import { AppUser } from '@/pages/registered-users/columns';
+import UnbanDialog from '@/pages/user-details/unban-dialog';
 
-const UserSummaryCard = () => {
+const UserSummaryCard = ({ user }: { user: AppUser }) => {
+    const {
+        data,
+        setData,
+        post,
+        delete: destroy,
+    } = useForm({
+        reason: '',
+        user_id: user.user.uuid,
+    });
+
+    const ban = () => {
+        post(route('bans.store'), {
+            preserveState: false,
+            preserveScroll: true,
+        });
+        return;
+    };
+
+    const unban = () => {
+        destroy(route('bans.destroy', { ban: user.ban.id }), {
+            preserveState: false,
+            preserveScroll: true,
+        });
+    };
+
     return (
         <div className="bg-card rounded-lg border p-5">
             <div className="flex items-start justify-between">
                 <div className="flex gap-x-4">
                     <span
-                        className={`fi fi-de fis rounded`}
+                        className={`fi fi-${user.country_code.toLowerCase()} fis rounded`}
                         style={{
                             width: '5rem',
                             height: '5rem',
@@ -29,79 +48,20 @@ const UserSummaryCard = () => {
 
                     <div className="space-y-1">
                         <h3 className="text-lg font-semibold text-gray-900">
-                            Bob Smith
+                            {user.user.name}
                         </h3>
                         <div className="text-sm text-gray-500">
-                            bob.smith@example.com
+                            {user.user.email}
                         </div>
-                        <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset">
-                            Active
-                        </span>
+
+                        <Badge
+                            text={accountStatus(user.ban)}
+                            className={badgeColors[accountStatus(user.ban)]}
+                        />
                     </div>
                 </div>
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <PencilSquareIcon className="size-6 cursor-pointer text-gray-900 hover:text-gray-500" />
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
-                        <DialogHeader>
-                            <DialogTitle>Edit profile</DialogTitle>
-                            <DialogDescription>
-                                Leave the password field blank to keep the
-                                current password.
-                            </DialogDescription>
-                        </DialogHeader>
 
-                        <div className="grid gap-4 py-4">
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="name" className="text-right">
-                                    Name
-                                </Label>
-                                <Input
-                                    id="name"
-                                    defaultValue="Bob Smith"
-                                    className="col-span-3"
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="email" className="text-right">
-                                    Email
-                                </Label>
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    defaultValue="bob.smith@example.com"
-                                    className="col-span-3"
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label
-                                    htmlFor="password"
-                                    className="text-right"
-                                >
-                                    Password
-                                </Label>
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    className="col-span-3"
-                                />
-                            </div>
-                        </div>
-
-                        <DialogFooter>
-                            <Button
-                                type="submit"
-                                size="xl"
-                                className="cursor-pointer"
-                            >
-                                Save changes
-                            </Button>
-                        </DialogFooter>
-                    </DialogContent>
-                </Dialog>
+                <EditProfileDialog />
             </div>
 
             <div className="mt-8 space-y-1">
@@ -110,9 +70,7 @@ const UserSummaryCard = () => {
                     <div className="text-sm text-gray-500">Device ID</div>
                 </div>
 
-                <div className="text-sm text-gray-900">
-                    59e8d837-18b6-4af3-b971-c300d281db5f
-                </div>
+                <div className="text-sm text-gray-900">{user.device_id}</div>
             </div>
 
             <div className="mt-8 flex flex-wrap justify-between gap-y-8">
@@ -124,7 +82,9 @@ const UserSummaryCard = () => {
                         </div>
                     </div>
 
-                    <div className="text-sm text-gray-900">May 20, 2024</div>
+                    <div className="text-sm text-gray-900">
+                        {formatDate(new Date(user.created_at))}
+                    </div>
                 </div>
 
                 <div className="space-y-1">
@@ -133,7 +93,9 @@ const UserSummaryCard = () => {
                         <div className="text-sm text-gray-500">Balance</div>
                     </div>
 
-                    <div className="text-sm text-gray-900">3000</div>
+                    <div className="text-sm text-gray-900">
+                        {user.coin_amount}
+                    </div>
                 </div>
 
                 <div className="space-y-1">
@@ -152,15 +114,37 @@ const UserSummaryCard = () => {
                     Send message
                 </Button>
 
-                <Button
-                    size="xl"
-                    className="cursor-pointer bg-red-500 text-red-50 hover:bg-red-400"
-                >
-                    Ban
-                </Button>
+                {user.ban === null ? (
+                    <BanDialog data={data} setData={setData} ban={ban} />
+                ) : (
+                    <UnbanDialog unban={unban} />
+                )}
             </div>
         </div>
     );
 };
 
 export default UserSummaryCard;
+
+export const Badge = ({
+    text,
+    className,
+}: {
+    text: string;
+    className: string;
+}) => (
+    <span
+        className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-inset ${className}`}
+    >
+        {text}
+    </span>
+);
+
+export const accountStatus = (ban: AppUser['ban']) => {
+    return ban === null ? 'active' : 'banned';
+};
+
+export const badgeColors = {
+    active: 'bg-green-50 text-green-700 ring-1 ring-green-600/20',
+    banned: 'bg-red-50 text-red-700 ring-1 ring-red-600/10 ',
+};

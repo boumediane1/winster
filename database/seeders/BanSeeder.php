@@ -21,16 +21,5 @@ class BanSeeder extends Seeder
                 'user_id' => $user->uuid,
             ]);
         }
-
-        $liftedUsers = AppUser::whereNotIn('uuid', $users->pluck('uuid'))
-            ->inRandomOrder()
-            ->take(5)
-            ->get();
-
-        foreach ($liftedUsers as $user) {
-            Ban::factory()->lifted()->create([
-                'user_id' => $user->uuid,
-            ]);
-        }
     }
 }

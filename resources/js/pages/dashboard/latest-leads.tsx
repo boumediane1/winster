@@ -13,7 +13,7 @@ const LatestLeads = () => {
             </div>
             <div className="p-6 pt-0">
                 <div className="space-y-8">
-                    {[].slice(0, 6).map((user) => (
+                    {users.slice(0, 6).map((user) => (
                         <div key={user.email} className="flex items-center">
                             <span
                                 className={`fi fi-${user.countryCode.toLowerCase()} fis rounded`}
@@ -41,3 +41,36 @@ const LatestLeads = () => {
 };
 
 export default LatestLeads;
+
+const users = [
+    {
+        name: 'Alice Johnson',
+        email: 'alice@example.com',
+        countryCode: 'US',
+    },
+    {
+        name: 'Carlos Martínez',
+        email: 'carlos@example.com',
+        countryCode: 'ES',
+    },
+    {
+        name: 'Fatima Noor',
+        email: 'fatima@example.com',
+        countryCode: 'MA',
+    },
+    {
+        name: "Liam O'Sullivan",
+        email: 'liam@example.com',
+        countryCode: 'IE',
+    },
+    {
+        name: 'Chen Wei',
+        email: 'chen@example.com',
+        countryCode: 'CN',
+    },
+    {
+        name: 'Ava Müller',
+        email: 'ava@example.com',
+        countryCode: 'DE',
+    },
+];

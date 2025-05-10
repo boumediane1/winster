@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('bans', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('user_id')->references('uuid')->on('app_users');
+            $table->foreignUuid('user_id')->unique()->references('uuid')->on('app_users');
             $table->string('reason');
-            $table->timestamp('lifted_at')->nullable();
             $table->timestamps();
         });
     }

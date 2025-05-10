@@ -3,20 +3,24 @@ import { Button } from '@/components/ui/button';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
 import { Link } from '@inertiajs/react';
 import { User } from '@/types';
+import {
+    accountStatus,
+    Badge,
+    badgeColors,
+} from '@/pages/user-details/user-summary-card';
 
 export interface AppUser {
     device_id: string;
     coin_amount: number;
-    banned: boolean;
     country_code?: string;
     created_at: string;
     user: User;
+    ban: {
+        id: number;
+        reason: string;
+        created_at: string;
+    };
 }
-
-const badgeColor = {
-    true: 'bg-green-50 text-green-700 ring-green-600/20',
-    false: 'bg-red-50 text-red-700 ring-red-600/10',
-};
 
 export const columns: ColumnDef<AppUser>[] = [
     {
@@ -47,15 +51,9 @@ export const columns: ColumnDef<AppUser>[] = [
         accessorKey: 'banned',
         header: 'Account status',
         cell: ({ row }) => {
-            const banned: string = row.getValue('banned');
+            const status = accountStatus(row.original.ban);
 
-            return (
-                <span
-                    className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${badgeColor[banned]}`}
-                >
-                    {banned ? 'banned' : 'active'}
-                </span>
-            );
+            return <Badge text={status} className={badgeColors[status]} />;
         },
     },
     {

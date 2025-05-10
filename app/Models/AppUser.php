@@ -28,11 +28,7 @@ class AppUser extends Model
         return $this->hasMany(Withdrawal::class, 'user_id');
     }
 
-    public function bans(): HasMany {
-        return $this->hasMany(Ban::class, 'user_id');
-    }
-
-    public function latestBan(): HasOne {
-        return $this->hasOne(Ban::class, 'user_id')->latestOfMany();
+    public function ban(): HasOne {
+        return $this->hasOne(Ban::class, 'user_id');
     }
 }

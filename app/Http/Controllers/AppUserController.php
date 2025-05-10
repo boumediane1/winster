@@ -13,13 +13,15 @@ class AppUserController extends Controller
     {
         $users = AppUser::query()
             ->whereRelation('user', 'name', 'ILIKE', '%' . $request->query('name') . '%')
-            ->with('user')->paginate(7);
+            ->with(['user', 'ban'])->paginate(7);
 
         return Inertia::render('registered-users/users', $users);
     }
 
     public function show(AppUser $user)
     {
+        $user->load(['user', 'ban']);
+
         return Inertia::render('user-details/user-details', [
             'user' => $user,
             'withdrawals' => $user->withdrawals()->latest('updated_at')->get(),
@@ -30,14 +32,13 @@ class AppUserController extends Controller
     public function banned()
     {
         $users = AppUser::query()
-            ->with('user')
-            ->with('latestBan')
-            ->whereHas('bans', function ($query) {
-                $query->whereNull('lifted_at');
-            })->get();
+            ->whereHas('ban')
+            ->with(['user', 'ban'])
+            ->orderBy('created_at')
+            ->get();
 
         return Inertia::render('banned-users/users', [
-            'users' => $users
+            'users' => $users,
         ]);
     }
 }

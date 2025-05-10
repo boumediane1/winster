@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app/app-sidebar-layout';
 import Heading from '@/components/heading';
-import { columns, AppUser } from './columns';
+import { AppUser, columns } from './columns';
 import { DataTable } from '@/components/data-table';
 import { BreadcrumbItem, Page } from '@/types';
 import {
@@ -26,6 +26,8 @@ const Users = (users: Page<AppUser>) => {
         pageIndex: users.current_page - 1,
         pageSize: users.per_page,
     });
+
+    console.log(users);
 
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);

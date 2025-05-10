@@ -108,7 +108,7 @@ const UserDetails = () => {
                     </div>
 
                     <div className="col-span-full lg:mt-[55px] xl:col-span-6 2xl:col-span-4">
-                        <UserSummaryCard />
+                        <UserSummaryCard user={user} />
                     </div>
                 </div>
             </div>

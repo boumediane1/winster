@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthenticatedSessionController;
 use App\Http\Controllers\AppUserController;
+use App\Http\Controllers\BanController;
 use App\Http\Controllers\OfferwallController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WithdrawalController;
@@ -39,6 +40,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/withdrawals', [WithdrawalController::class, 'index'])->name('withdrawals.index');
     Route::patch('/withdrawals/reject', [WithdrawalController::class, 'reject'])->name('withdrawals.reject');
     Route::patch('/withdrawals/approve', [WithdrawalController::class, 'approve'])->name('withdrawals.approve');
+
+    Route::post('bans', [BanController::class, 'store'])->name('bans.store');
+    Route::delete('bans/{ban}', [BanController::class, 'destroy'])->name('bans.destroy');
+    Route::patch('bans/{ban}', [BanController::class, 'update'])->name('bans.update');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

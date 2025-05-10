@@ -20,14 +20,6 @@ class BanFactory extends Factory
             'reason' => $this->faker->sentence(),
             'created_at' => now(),
             'updated_at' => now(),
-            'lifted_at' => null,
         ];
-    }
-
-    public function lifted(): static
-    {
-        return $this->state(fn () => [
-            'lifted_at' => now()->subDays(rand(1, 30)),
-        ]);
     }
 }

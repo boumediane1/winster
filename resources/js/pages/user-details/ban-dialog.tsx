@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogHeader,
@@ -8,33 +7,33 @@ import {
     DialogTrigger,
     DialogTitle,
 } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { AppUser } from '@/pages/registered-users/columns';
-import { useForm } from '@inertiajs/react';
+import { InertiaFormProps } from '@inertiajs/react';
 
-const UpdateReasonDialog = ({ ban }: { ban: AppUser['ban'] }) => {
-    const { data, setData, patch } = useForm<{ reason: string }>({
-        reason: ban.reason,
-    });
-
-    const update = () => {
-        patch(route('bans.update', { ban: ban.id }), {
-            preserveState: false,
-            preserveScroll: true,
-        });
-    };
-
+const BanDialog = ({
+    data,
+    setData,
+    ban,
+}: {
+    data: InertiaFormProps<{ reason: string }>['data'];
+    setData: InertiaFormProps<{ reason: string }>['setData'];
+    ban: () => void;
+}) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline" className="cursor-pointer">
-                    Edit
+                <Button
+                    size="xl"
+                    className="cursor-pointer bg-red-500 text-red-50 capitalize hover:bg-red-400"
+                >
+                    Ban
                 </Button>
             </DialogTrigger>
 
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Update reason</DialogTitle>
+                    <DialogTitle>Reason</DialogTitle>
                     <DialogDescription>
                         Enter the reason for banning this user.
                     </DialogDescription>
@@ -42,14 +41,16 @@ const UpdateReasonDialog = ({ ban }: { ban: AppUser['ban'] }) => {
 
                 <Textarea
                     value={data.reason}
-                    onChange={(e) => setData('reason', e.target.value)}
+                    onChange={(value) => {
+                        setData('reason', value.target.value);
+                    }}
                 />
 
                 <DialogFooter>
                     <Button
                         type="submit"
                         className="cursor-pointer"
-                        onClick={update}
+                        onClick={ban}
                     >
                         Save changes
                     </Button>
@@ -59,4 +60,4 @@ const UpdateReasonDialog = ({ ban }: { ban: AppUser['ban'] }) => {
     );
 };
 
-export default UpdateReasonDialog;
+export default BanDialog;

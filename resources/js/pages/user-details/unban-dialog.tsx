@@ -10,18 +10,14 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { AppUser } from '@/pages/registered-users/columns';
-import { router } from '@inertiajs/react';
 
-const UnbanDialog = ({ user }: { user: AppUser }) => {
-    const ban = () => {
-        router.delete(route('bans.destroy', { ban: user.ban }));
-    };
-
+const UnbanDialog = ({ unban }: { unban: () => void }) => {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button className="cursor-pointer">Unban</Button>
+                <Button size="xl" className="cursor-pointer">
+                    UnBan
+                </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
@@ -37,7 +33,10 @@ const UnbanDialog = ({ user }: { user: AppUser }) => {
                     <AlertDialogCancel className="cursor-pointer">
                         Cancel
                     </AlertDialogCancel>
-                    <AlertDialogAction className="cursor-pointer" onClick={ban}>
+                    <AlertDialogAction
+                        className="cursor-pointer"
+                        onClick={unban}
+                    >
                         Continue
                     </AlertDialogAction>
                 </AlertDialogFooter>
