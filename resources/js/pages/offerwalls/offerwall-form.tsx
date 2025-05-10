@@ -11,7 +11,7 @@ import InputError from '@/components/input-error';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Adjoe',
+        title: 'Update Offerwall',
         href: '/',
     },
 ];
@@ -62,7 +62,11 @@ const OfferwallForm = () => {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <div className="px-6 py-6 md:px-8">
-                <Heading title="Adjoe" />
+                <Heading
+                    title={
+                        offerwall === undefined ? 'Create offerwall' : data.name
+                    }
+                />
 
                 <div className="max-w-4xl">
                     <form onSubmit={submit}>

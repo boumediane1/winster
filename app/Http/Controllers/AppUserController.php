@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateAppUserRequest;
 use App\Models\AppUser;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -26,6 +27,13 @@ class AppUserController extends Controller
             'user' => $user,
             'withdrawals' => $user->withdrawals()->latest('updated_at')->get(),
             'transactions' => $user->transactions()->latest()->get(),
+        ]);
+    }
+
+    public function update(UpdateAppUserRequest $request, User $user) {
+        $user->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email')
         ]);
     }
 

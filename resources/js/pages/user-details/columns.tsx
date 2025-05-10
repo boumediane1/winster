@@ -3,13 +3,6 @@ import '/node_modules/flag-icons/css/flag-icons.min.css';
 import { Withdrawal } from '@/pages/withdrawals/withdrawal-list';
 import { Transaction } from '@/pages/user-details/user-details';
 
-export interface Payout {
-    method: 'Paypal';
-    coinAmount: string;
-    status: 'pending' | 'completed' | 'rejected';
-    date: string;
-}
-
 const badgeColor = {
     pending: 'bg-yellow-50 text-yellow-800 ring-yellow-600/20',
     completed: 'bg-green-50 text-green-700 ring-green-600/20',

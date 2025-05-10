@@ -61,7 +61,7 @@ const UserSummaryCard = ({ user }: { user: AppUser }) => {
                     </div>
                 </div>
 
-                <EditProfileDialog />
+                <EditProfileDialog user={user} />
             </div>
 
             <div className="mt-8 space-y-1">
