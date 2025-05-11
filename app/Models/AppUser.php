@@ -13,7 +13,7 @@ class AppUser extends Model
 {
     use HasFactory, HasUuids;
     protected $primaryKey = 'uuid';
-    protected $fillable = ['device_id', 'coin_amount', 'country_code'];
+    protected $fillable = ['device_id', 'coin_amount', 'country_code', 'ip_address'];
 
     public function user(): BelongsTo
     {

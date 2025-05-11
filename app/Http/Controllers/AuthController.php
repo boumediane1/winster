@@ -8,6 +8,7 @@ use App\Reason;
 use App\Services\LocationService;
 use App\Services\SettingsService;
 use DB;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -19,9 +20,10 @@ class AuthController extends Controller
     protected SettingsService $settings;
     protected LocationService $location;
 
-    public function __construct(SettingsService $settings)
+    public function __construct(SettingsService $settings, LocationService $location)
     {
         $this->settings = $settings;
+        $this->location = $location;
     }
 
     /**
@@ -43,18 +45,23 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
+            if ($this->settings->isEmailVerificationRequired()) {
+                event(new Registered($user));
+            }
+
             $bonus = $this->settings->registrationBonus();
 
             $appUser = $user->appUser()->create([
                 'device_id' => $request->device_id,
                 'coin_amount' => $bonus,
-                'country_code' => $this->location->countyCode()
+                'country_code' => $this->location->countyCode(),
+                'ip_address' => $request->ip()
             ]);
 
             $appUser->transactions()->create([
                 'message' => 'Welcome gift',
                 'coin_amount' => $bonus,
-                'reason' => Reason::RegistrationBonus
+                'source' => Reason::RegistrationBonus
             ]);
 
             return $user;
