@@ -14,12 +14,12 @@ class SettingsService
 
     public function isAccountAllowed(string $device_id): bool
     {
-        $allowed = filter_var(
-            Settings::where('key', 'multiple_accounts_allowed')->value('value'),
+        $prevent_duplicate_accounts = filter_var(
+            Settings::where('key', 'prevent_duplicate_accounts')->value('value'),
             FILTER_VALIDATE_BOOLEAN
         );
 
-        if (!$allowed) {
+        if ($prevent_duplicate_accounts) {
             return !AppUser::where('device_id', $device_id)->exists();
         }
 

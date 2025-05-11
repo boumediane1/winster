@@ -5,6 +5,8 @@ use App\Http\Controllers\AppUserController;
 use App\Http\Controllers\BanController;
 use App\Http\Controllers\OfferwallController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RewardSettingsController;
+use App\Http\Controllers\SecuritySettingsController;
 use App\Http\Controllers\WithdrawalController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -45,6 +47,9 @@ Route::middleware('auth')->group(function () {
     Route::post('bans', [BanController::class, 'store'])->name('bans.store');
     Route::delete('bans/{ban}', [BanController::class, 'destroy'])->name('bans.destroy');
     Route::patch('bans/{ban}', [BanController::class, 'update'])->name('bans.update');
+
+    Route::get('settings/rewards', [RewardSettingsController::class, 'index'])->name('settings.index');
+    Route::get('settings/security', [SecuritySettingsController::class, 'index'])->name('settings.index');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

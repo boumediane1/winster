@@ -11,7 +11,13 @@ import {
 } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Banknote, Gamepad2, LayoutGrid, UserCog } from 'lucide-react';
+import {
+    Banknote,
+    Gamepad2,
+    LayoutGrid,
+    Settings,
+    UserCog,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -44,6 +50,21 @@ const mainNavItems: NavItem[] = [
         title: 'Offerwalls',
         href: '/offerwalls',
         icon: Gamepad2,
+    },
+    {
+        title: 'Settings',
+        href: '/settings',
+        icon: Settings,
+        children: [
+            {
+                title: 'Rewards',
+                href: '/settings/rewards',
+            },
+            {
+                title: 'Security',
+                href: '/settings/security',
+            },
+        ],
     },
 ];
 

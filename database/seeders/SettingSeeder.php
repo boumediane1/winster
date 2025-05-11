@@ -18,7 +18,7 @@ class SettingSeeder extends Seeder
         ]);
 
         Settings::create([
-            'key' => 'multiple_accounts_allowed',
+            'key' => 'prevent_duplicate_accounts',
             'value'=> 'false',
         ]);
     }
