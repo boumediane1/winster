@@ -5,6 +5,14 @@ import { Label } from '@/components/ui/label';
 import InputError from '@/components/input-error';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useForm, usePage } from '@inertiajs/react';
+import { LoaderCircle } from 'lucide-react';
+
+interface Settings {
+    registration_bonus: number;
+    referrer_reward: number;
+    new_user_reward: number;
+}
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,6 +22,22 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const Rewards = () => {
+    const { settings } = usePage<{
+        settings: Settings;
+    }>().props;
+
+    console.log(settings);
+
+    const { data, setData, put, processing, errors } = useForm({
+        registration_bonus: settings.registration_bonus,
+        referrer_reward: settings.referrer_reward,
+        new_user_reward: settings.new_user_reward,
+    });
+
+    const handleSubmit = () => {
+        put(route('settings.rewards.update'));
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <div className="px-6 py-6 md:px-8">
@@ -28,9 +52,15 @@ const Rewards = () => {
                             <Input
                                 id="registration-bonus"
                                 type="number"
-                                defaultValue={1440}
+                                value={data.registration_bonus}
+                                onChange={(e) =>
+                                    setData(
+                                        'registration_bonus',
+                                        Number(e.target.value),
+                                    )
+                                }
                             />
-                            <InputError />
+                            <InputError message={errors.registration_bonus} />
                         </div>
 
                         <div className="flex flex-col gap-y-2">
@@ -40,9 +70,15 @@ const Rewards = () => {
                             <Input
                                 id="referrer-reward"
                                 type="number"
-                                defaultValue={1440}
+                                value={data.referrer_reward}
+                                onChange={(e) =>
+                                    setData(
+                                        'referrer_reward',
+                                        Number(e.target.value),
+                                    )
+                                }
                             />
-                            <InputError />
+                            <InputError message={errors.referrer_reward} />
                         </div>
 
                         <div className="flex flex-col gap-y-2">
@@ -52,13 +88,27 @@ const Rewards = () => {
                             <Input
                                 id="new-user-reward"
                                 type="number"
-                                defaultValue={1440}
+                                value={data.new_user_reward}
+                                onChange={(e) =>
+                                    setData(
+                                        'new_user_reward',
+                                        Number(e.target.value),
+                                    )
+                                }
                             />
-                            <InputError />
+                            <InputError message={errors.new_user_reward} />
                         </div>
                     </div>
 
-                    <Button size="xl" className="mt-6 cursor-pointer">
+                    <Button
+                        size="xl"
+                        className="mt-6 cursor-pointer"
+                        disabled={processing}
+                        onClick={handleSubmit}
+                    >
+                        {processing && (
+                            <LoaderCircle className="h-4 w-4 animate-spin" />
+                        )}
                         Save changes
                     </Button>
                 </div>

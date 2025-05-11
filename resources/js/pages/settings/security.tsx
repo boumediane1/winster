@@ -131,8 +131,8 @@ const Security = () => {
                                 </div>
                             </div>
                         </div>
-                        <Button type="submit" disabled={processing}>
-                            Submit
+                        <Button type="submit" disabled={true} size="xl">
+                            Save changes
                         </Button>
                     </form>
                 </div>

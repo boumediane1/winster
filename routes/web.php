@@ -48,7 +48,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('bans/{ban}', [BanController::class, 'destroy'])->name('bans.destroy');
     Route::patch('bans/{ban}', [BanController::class, 'update'])->name('bans.update');
 
-    Route::get('settings/rewards', [RewardSettingsController::class, 'index'])->name('settings.index');
+    Route::get('settings/rewards', [RewardSettingsController::class, 'index'])->name('settings.rewards.index');
+    Route::put('settings/rewards', [RewardSettingsController::class, 'update'])->name('settings.rewards.update');
+
     Route::get('settings/security', [SecuritySettingsController::class, 'index'])->name('settings.index');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
