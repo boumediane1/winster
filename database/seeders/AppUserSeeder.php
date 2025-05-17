@@ -27,6 +27,7 @@ class AppUserSeeder extends Seeder
                 'source' => 'Registration bonus',
                 'coin_amount' => $coins,
                 'user_uuid' => $user->uuid,
+                'created_at' => now()
             ]);
         }
     }
