@@ -25,7 +25,7 @@ const UnbanDialog = ({ ban }: { ban: AppUser['ban'] }) => {
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <Button size="xl" className="cursor-pointer">
-                    UnBan
+                    Unban
                 </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
