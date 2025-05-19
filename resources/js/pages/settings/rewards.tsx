@@ -6,7 +6,7 @@ import InputError from '@/components/input-error';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useForm, usePage } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
+import { Transition } from '@headlessui/react';
 
 interface Settings {
     registration_bonus: number;
@@ -28,11 +28,12 @@ const Rewards = () => {
 
     console.log(settings);
 
-    const { data, setData, put, processing, errors } = useForm({
-        registration_bonus: settings.registration_bonus,
-        referrer_reward: settings.referrer_reward,
-        new_user_reward: settings.new_user_reward,
-    });
+    const { data, setData, put, processing, errors, recentlySuccessful } =
+        useForm({
+            registration_bonus: settings.registration_bonus,
+            referrer_reward: settings.referrer_reward,
+            new_user_reward: settings.new_user_reward,
+        });
 
     const handleSubmit = () => {
         put(route('settings.rewards.update'));
@@ -43,7 +44,7 @@ const Rewards = () => {
             <div className="px-6 py-6 md:px-8">
                 <Heading title="Settings" />
 
-                <div className="max-w-4xl">
+                <div className="max-w-4xl space-y-6">
                     <div className="mt-10 grid gap-x-4 gap-y-8 sm:grid-cols-3">
                         <div className="flex flex-col gap-y-2">
                             <Label htmlFor="registration-bonus">
@@ -100,17 +101,26 @@ const Rewards = () => {
                         </div>
                     </div>
 
-                    <Button
-                        size="xl"
-                        className="mt-6 cursor-pointer"
-                        disabled={processing}
-                        onClick={handleSubmit}
-                    >
-                        {processing && (
-                            <LoaderCircle className="h-4 w-4 animate-spin" />
-                        )}
-                        Save changes
-                    </Button>
+                    <div className="flex items-center gap-4">
+                        <Button
+                            size="xl"
+                            className="cursor-pointer"
+                            disabled={processing}
+                            onClick={handleSubmit}
+                        >
+                            Save changes
+                        </Button>
+
+                        <Transition
+                            show={recentlySuccessful}
+                            enter="transition ease-in-out"
+                            enterFrom="opacity-0"
+                            leave="transition ease-in-out"
+                            leaveTo="opacity-0"
+                        >
+                            <p className="text-sm text-neutral-600">Saved</p>
+                        </Transition>
+                    </div>
                 </div>
             </div>
         </AppLayout>

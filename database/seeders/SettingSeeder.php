@@ -18,6 +18,16 @@ class SettingSeeder extends Seeder
         ]);
 
         Settings::create([
+            'key' => 'referrer_reward',
+            'value'=> 1000,
+        ]);
+
+        Settings::create([
+            'key' => 'new_user_reward',
+            'value'=> 500,
+        ]);
+
+        Settings::create([
             'key' => 'email_verification_required',
             'value'=> true,
         ]);
