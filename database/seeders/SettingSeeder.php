@@ -18,6 +18,11 @@ class SettingSeeder extends Seeder
         ]);
 
         Settings::create([
+            'key' => 'email_verification_required',
+            'value'=> true,
+        ]);
+
+        Settings::create([
             'key' => 'prevent_duplicate_accounts',
             'value'=> 'false',
         ]);

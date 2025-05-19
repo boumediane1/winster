@@ -13,6 +13,8 @@ Route::get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::post('/register/verify', [AuthController::class, 'verify']);
+
 Route::get('/payout/{secret}/{offerwall}', PayoutController::class);
 
 Route::get('/transactions', [TransactionController::class, 'index'])->middleware('auth:sanctum');
