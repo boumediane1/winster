@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AuthenticatedSessionController;
 use App\Http\Controllers\AppUserController;
 use App\Http\Controllers\BanController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OfferwallController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RewardSettingsController;
@@ -54,4 +55,6 @@ Route::middleware('auth')->group(function () {
     Route::get('settings/security', [SecuritySettingsController::class, 'index'])->name('settings.index');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+    Route::get('/dashboard', [DashboardController::class, 'index']);
 });

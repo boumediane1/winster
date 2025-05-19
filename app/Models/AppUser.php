@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -30,5 +31,11 @@ class AppUser extends Model
 
     public function ban(): HasOne {
         return $this->hasOne(Ban::class, 'user_id');
+    }
+
+    public static function usersInLastMonth() {
+        return self::query()
+            ->whereBetween('created_at', [Carbon::now()->subMonth(), Carbon::now()])
+            ->count();
     }
 }
