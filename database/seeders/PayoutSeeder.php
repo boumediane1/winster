@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AppUser;
 use App\Models\Payout;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,6 @@ class PayoutSeeder extends Seeder
      */
     public function run(): void
     {
-        Payout::factory()->count(50)->create();
+        Payout::factory()->for(AppUser::query()->inRandomOrder()->first())->count(50)->create();
     }
 }

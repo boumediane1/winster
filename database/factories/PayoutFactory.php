@@ -21,7 +21,7 @@ class PayoutFactory extends Factory
         return [
             'offerwall_id' => Offerwall::inRandomOrder()->first()->id,
             'offer_id' => $this->faker->uuid,
-            'user_id' => AppUser::inRandomOrder()->first()->uuid,
+//            'user_id' => AppUser::inRandomOrder()->first()->uuid,
             'reward_amount' => $this->faker->numberBetween(10, 100),
             'created_at' => now(),
         ];

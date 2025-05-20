@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('logo')->nullable();
             $table->string('sdk_key');
             $table->string('placement');
-
             $table->string('secret');
             $table->string('reward_amount_param');
             $table->string('user_id_param');

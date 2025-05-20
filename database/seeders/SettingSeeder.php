@@ -36,5 +36,10 @@ class SettingSeeder extends Seeder
             'key' => 'prevent_duplicate_accounts',
             'value'=> 'false',
         ]);
+
+        Settings::create([
+            'key' => 'coins_per_usd',
+            'value'=> 1000,
+        ]);
     }
 }

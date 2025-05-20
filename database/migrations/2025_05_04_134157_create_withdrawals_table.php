@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('payment_method');
             $table->foreignUuid('user_id')->references('uuid')->on('app_users');
             $table->integer('coins');
+            $table->double('usd_amount');
             $table->enum('status', ['pending', 'completed', 'rejected']);
             $table->timestamps();
         });

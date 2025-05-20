@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Settings;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,10 +17,15 @@ class WithdrawalFactory extends Factory
      */
     public function definition(): array
     {
+        $coins_per_usd = Settings::query()->where('key', 'coins_per_usd')->value('value');
+
+        $coins = $this->faker->numberBetween(0, 1000);
+
         return [
             'payment_method' => 'Paypal',
-            'coins' => $this->faker->numberBetween(0, 1000),
-            'status' => $this->faker->randomElement(['pending', 'completed', 'rejected'])
+            'coins' => $coins,
+            'usd_amount' => $coins / $coins_per_usd,
+            'status' => $this->faker->randomElement(['pending', 'completed', 'rejected']),
         ];
     }
 }

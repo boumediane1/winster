@@ -41,7 +41,7 @@ class PayoutController extends Controller
             'offer_id' => $offerId,
             'reward_amount' => $rewardAmount,
         ]);
-        $payout->user()->associate($user);
+        $payout->appUser()->associate($user);
         $payout->offerwall()->associate($offerwall);
 
         try {

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\AppUser;
+use App\Models\Payout;
+use App\Models\Withdrawal;
 use Inertia\Inertia;
 
 class DashboardController
@@ -10,7 +12,9 @@ class DashboardController
     public function index()
     {
         return Inertia::render('dashboard/dashboard', [
-            'total_users' => AppUser::usersInLastMonth()
+            'new_users' => AppUser::usersInLastMonth(),
+            'new_leads' => Payout::newLeads(),
+            'withdrawn_in_last_month' => Withdrawal::newWithdrawn()
         ]);
     }
 }

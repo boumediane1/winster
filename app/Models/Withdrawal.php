@@ -24,4 +24,10 @@ class Withdrawal extends Model
             get: fn (string $value) => Carbon::parse($value)->diffForHumans()
         );
     }
+
+    public static function newWithdrawn() {
+        return self::query()
+            ->where('status', 'completed')
+            ->whereBetween('updated_at', [Carbon::now()->subMonth(), Carbon::now()])->sum('usd_amount');
+    }
 }
