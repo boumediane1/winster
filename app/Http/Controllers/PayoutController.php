@@ -27,7 +27,7 @@ class PayoutController extends Controller
         $offerwall = $this->payout->validateCallbackURL($request);
 
          if ($offerwall === null) {
-             return response()->json(['error' => 'Invalid callback URL'], Response::HTTP_NOT_FOUND);
+             return response()->json(['error' => 'Invalid callback URL'], Response::HTTP_UNPROCESSABLE_ENTITY);
          }
 
         $userId = $request->query($offerwall->user_id_param);
