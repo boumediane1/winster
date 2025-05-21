@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\AuthenticatedSessionController;
 use App\Http\Controllers\AppUserController;
+use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\BanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OfferwallController;
