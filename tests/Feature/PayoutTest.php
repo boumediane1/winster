@@ -16,6 +16,8 @@ class PayoutTest extends TestCase
 
     public function test_creates_transaction_and_updates_balance_on_valid_tapjoy_payout(): void
     {
+        $this->actingAs(User::factory()->create());
+
         $offerwall = Offerwall::factory()->create([
             'slug' => 'tapjoy',
             'secret' => 'secret',
@@ -45,6 +47,8 @@ class PayoutTest extends TestCase
 
     public function test_rejects_payout_with_invalid_secret(): void
     {
+        $this->actingAs(User::factory()->create());
+
         $offerwall = Offerwall::factory()->create([
             'slug' => 'tapjoy',
             'secret' => 'correct',
