@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\AppUser;
-use App\Models\Offerwall;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,9 +17,7 @@ class PayoutFactory extends Factory
     public function definition(): array
     {
         return [
-            'offerwall_id' => Offerwall::inRandomOrder()->first()->id,
             'offer_id' => $this->faker->uuid,
-//            'user_id' => AppUser::inRandomOrder()->first()->uuid,
             'reward_amount' => $this->faker->numberBetween(10, 100),
             'created_at' => now(),
         ];

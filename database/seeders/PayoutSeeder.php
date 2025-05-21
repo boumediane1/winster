@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\AppUser;
+use App\Models\Offerwall;
 use App\Models\Payout;
 use Illuminate\Database\Seeder;
 
@@ -13,6 +14,14 @@ class PayoutSeeder extends Seeder
      */
     public function run(): void
     {
-        Payout::factory()->for(AppUser::query()->inRandomOrder()->first())->count(50)->create();
+        Payout::factory()
+            ->count(50)
+            ->state(function () {
+                return [
+                    'user_id' => AppUser::query()->inRandomOrder()->value('uuid'),
+                    'offerwall_id' => Offerwall::query()->inRandomOrder()->value('id')
+                ];
+            })
+            ->create();
     }
 }
