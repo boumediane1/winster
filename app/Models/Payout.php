@@ -25,7 +25,13 @@ class Payout extends Model
         return $this->belongsTo(AppUser::class, 'user_id');
     }
 
-    public static function newLeads() {
+    public static function newLeads()
+    {
         return self::query()->whereBetween('created_at', [Carbon::now()->subMonth(), Carbon::now()])->count();
+    }
+
+    public static function earnings()
+    {
+        return self::query()->whereBetween('created_at', [Carbon::now()->subMonth(), Carbon::now()])->sum('usd_amount');
     }
 }

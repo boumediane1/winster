@@ -14,7 +14,8 @@ class DashboardController
         return Inertia::render('dashboard/dashboard', [
             'new_users' => AppUser::usersInLastMonth(),
             'new_leads' => Payout::newLeads(),
-            'withdrawn_in_last_month' => Withdrawal::newWithdrawn()
+            'withdrawn_in_last_month' => Withdrawal::newWithdrawn(),
+            'earnings_in_last_month' => Payout::earnings()
         ]);
     }
 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('offer_id');
             $table->foreignUuid('user_id')->references('uuid')->on('app_users');
             $table->integer('reward_amount');
+            $table->double('usd_amount');
             $table->timestamp('created_at')->useCurrent();
         });
     }

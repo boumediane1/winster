@@ -93,4 +93,26 @@ class DashboardControllerTest extends TestCase
             ->where('withdrawn_in_last_month', 2.5)
         );
     }
+
+    public function test_sum_earnings_in_last_month()
+    {
+        $this->actingAs(User::factory()->create());
+
+        $offerwall = Offerwall::factory();
+
+        Payout::factory()
+            ->for($offerwall)
+            ->for(AppUser::factory()->for(User::factory()))
+            ->create(['usd_amount' => 2, 'created_at' => Carbon::now()->subMonths(2)]);
+
+        Payout::factory()
+            ->for($offerwall)
+            ->for(AppUser::factory()->for(User::factory()))
+            ->create(['usd_amount' => 3, 'created_at' => Carbon::now()->subDay()]);
+
+        $this->get('/dashboard')->assertInertia(fn(AssertableInertia $page) => $page
+            ->component('dashboard/dashboard')
+            ->where('earnings_in_last_month', 3)
+        );
+    }
 }
